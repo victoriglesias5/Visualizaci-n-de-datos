@@ -1,0 +1,20 @@
+# Leyenda
+- 'Year': año del accidente.
+- 'Date': fecha del accidente.
+- 'Day_of_week': día de la semana. 1 es domingo, 2 lunes, etc.
+- 'Hour': hora, sin minutos ni segundos
+- 'Estacion': estación del año. 1 invierno, 2 primavera, 3 verano, 4 otoño
+- 'Accident_Severity': grado de severidad del accidente, va del 1 (+ grave) al 3 (- grave).
+- 'Number_of_Vehicles': número de vehículos implicados en el accidente.
+- 'Number_of_Casualties': número de fallecidos en el accidente.
+- 'Road_Type': tipo de carretera en el cual ocurrió el accidente.
+- 'Speed_limit': límite de velocidad de la vía en la que se produjo el accidente, en km/h (valores raros y con decimales ya que originalmente está en millas/h)
+- 'Junction_Control': existencia de controles en los cruces. En el caso de NaN es que no se tienen registros, no que necesariamente esté incontrolada
+- 'Pedestrian_Crossing-Human_Control': se refiere a si el paso de peatones relacionado con el accidente estaba controlado por alguna persona, como un policía de tráfico o algo parecido.
+- 'Pedestrian_Crossing-Physical_Facilities': situación del lugar del accidente a la hora de cruzar.
+- 'Light_Conditions': condiciones de luminosidad en el accidente.
+- 'Weather_Conditions': condiciones climatológicas bajo las que se ha producido el accidente..
+- 'Road_Surface_Conditions': condiciones de la vía en que ha ocurrido el accidente.
+- 'Special_Conditions_at_Site': condiciones especiales del accidente, si las hay.
+- 'Carriageway_Hazards': existencia de peligros en la carretera en el momento del incidente.
+- 'Did_Police_Officer_Attend_Scene_of_Accident': hace referencia a si los policias asistieron al lugar del accidente. Sí/no.
