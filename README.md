@@ -16,7 +16,7 @@ Con la creación de ramas, generas diferentes versiones de un repositorio. Al ha
 Así es como puedes generar una rama de características:
 
 Ve a tu nuevo repositorio. Pulsa el botón main e introduce el nombre de tu nueva rama de características. Haz clic en Create branch.
-Crear rama en GitHub
+![image](https://github.com/victoriglesias5/Visualizaci-n-de-datos/assets/148871986/3a6406e0-b426-4df4-be45-96145386e4f4)
 Ahora has creado una rama de características que se ve idéntica a la rama maestra. Puedes empezar a hacer cambios en ella libremente sin afectar al proyecto.
 
 3. Entender los commits de GitHub
@@ -25,9 +25,9 @@ Los commits son la forma en que se denominan los cambios guardados en GitHub. Ca
 A continuación te explicamos cómo hacer y confirmar un cambio:
 
 Accede a la rama de características haciendo clic en main y seleccionando tu rama recién creada en el menú desplegable.
-Confirmar cambios en GitHub
+![image](https://github.com/victoriglesias5/Visualizaci-n-de-datos/assets/148871986/07a276ff-4cb4-41dd-ba48-d7b7ad5521c3)
 Haz clic en el «icono del lápiz» para empezar a editar el archivo. Cuando hayas terminado, escribe una breve descripción de los cambios realizados. Haz clic en Commit changes.
-Confirmar cambios en GitHub
+![image](https://github.com/victoriglesias5/Visualizaci-n-de-datos/assets/148871986/20aae4bd-555a-4ec2-9558-87acf05c9701)
 4. Crear solicitudes de extracción en GitHub
 Para proponer los cambios que acabas de hacer a otros desarrolladores que trabajan en el mismo proyecto, debes crear una solicitud de extracción. Estas facilitan el trabajo conjunto en los proyectos, ya que son la principal herramienta de colaboración en GitHub.
 
@@ -36,10 +36,7 @@ Las solicitudes de extracción te permiten ver las diferencias entre el proyecto
 Para hacer una solicitud de extracción sigue los siguientes pasos:
 
 Haz clic en Pull requests -> New pull request. En Example comparisons, selecciona la rama de características en la que estabas trabajando.
-Elegir la rama de características en GitHub
+![image](https://github.com/victoriglesias5/Visualizaci-n-de-datos/assets/148871986/25b804eb-5765-4ee8-b4ad-d6eaffc75e40)
 Revisa los cambios una vez más y haz clic en Create pull request. En la nueva página, escribe el título y proporciona una breve descripción de lo que has trabajado para promover la fusión. Haz clic en Create pull request.
-Crear una solicitud de extracción en GitHub
-
 ![image](https://github.com/victoriglesias5/Visualizaci-n-de-datos/assets/148871986/0da5e449-2cb9-4214-b204-869eb7ec2e33)
-
 Ahora otros desarrolladores podrán fusionar los cambios que hiciste con los archivos originales del proyecto.
