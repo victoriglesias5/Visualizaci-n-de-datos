@@ -115,7 +115,13 @@ plt.show()
 # plt.show()
 
 #%%comparación de accident severity con speed limit
+plt.figure(figsize=(14, 8))
 sns.violinplot(x=df['Accident_Severity'], y=df['Speed_limit'])
+plt.xlabel("Accident_Severity", fontsize = 14, fontweight = 'bold')
+plt.xticks (fontweight = 'bold')
+plt.yticks(fontweight = 'bold')
+plt.ylabel("Speed_limit", fontsize = 14, fontweight = 'bold')
+plt.title("Límite de velocidad de la vía en relación con la severidad del accidente", fontsize = 20, fontweight = 'bold')
 plt.show()
 
 #%%
@@ -184,3 +190,85 @@ Atencion_Policial = df['Did_Police_Officer_Attend_Scene_of_Accident'].value_coun
 #Proporción de Atención Policial en Accidentes:
 #- Yes: 81.03%
 #- No: 18.97%
+
+#%%
+## VICTOR
+
+#%%
+# Filtramos el DataFrame para Accident_Severity igual a 1
+subset_df = df[df['Accident_Severity'] == 1]
+
+plt.figure(figsize=(14, 8))
+# Contamos las Number_of_Casualties
+casualties_counts = subset_df['Number_of_Casualties'].value_counts()
+total_grave_accidents = sum(casualties_counts)
+print('El total de accidente graves es de:', sum(casualties_counts))
+
+# Representamos Number_of_Casualties para cada Accident_Severity (filtrando hasta 5 y Accident_Severity 1)
+subset_df = df[(df['Number_of_Casualties'] <= 5) & (df['Accident_Severity'] == 1)]
+num_casualties_per_severity_counts = subset_df['Number_of_Casualties'].value_counts()
+sns.countplot(x='Number_of_Casualties', data=subset_df, color = '#8B0000')
+
+# Anotamos los valores en la parte superior de cada barra
+for i, count in enumerate(num_casualties_per_severity_counts):
+    plt.text(i, count + 0.1, str(count), ha='center', va='bottom', fontweight = 'bold')
+
+# Anotamos el total de accidentes graves en la parte superior de la última barra
+plt.text(len(num_casualties_per_severity_counts) - 1, max(num_casualties_per_severity_counts) + 1, f'Total: {total_grave_accidents}', ha='center', va='bottom', fontweight='bold', color='red')
+
+plt.xlabel('Número de víctimas', fontweight = 'bold', fontsize = 14)
+plt.ylabel('Count', fontweight = 'bold', fontsize = 14)
+plt.xticks(fontweight = 'bold')
+plt.yticks(fontweight = 'bold')
+plt.title('Número de víctimas graves en cada accidente', fontweight = 'bold', fontsize = 20)
+plt.show()
+
+#%%
+#Representamos el número de coches implicados en accidentes graves
+subset_df = df[df['Accident_Severity'] == 1]
+plt.figure(figsize=(14, 8))
+sns.countplot(x='Number_of_Vehicles', data=subset_df, color = '#8B0000')
+plt.title('Número de vehículos involucrados en accidentes graves', fontweight = 'bold', fontsize = 20)
+plt.xlabel('Número de vehículos', fontweight = 'bold', fontsize = 14)
+plt.ylabel('Número de accidentes graves', fontweight = 'bold', fontsize = 14)
+plt.xticks(fontweight = 'bold')
+plt.yticks(fontweight = 'bold')
+plt.show()
+
+#%%
+
+subset_df = df[df['Number_of_Casualties'] <= 5]
+
+# Crear el gráfico de barras
+plt.figure(figsize=(14, 8))
+sns.countplot(x='Number_of_Casualties', data=subset_df, color='#8B0000')
+plt.title('Número de víctimas por accidente', fontsize=20, fontweight='bold')
+plt.xlabel('Número de víctimas', fontsize=14, fontweight='bold')
+plt.xticks(fontweight = 'bold')
+plt.yticks(fontweight = 'bold')
+plt.ticklabel_format(axis='y', style='plain')
+plt.ylabel('Frecuencia', fontweight = 'bold', fontsize = 14)
+plt.show()
+
+#%%
+Tiempo = df['Weather_Conditions']
+plt.figure(figsize=(14, 8))
+sns.countplot(x=Tiempo, color='#8B0000')
+plt.title('Accidentes respecto a las condiciones ambientales', fontsize=20, fontweight='bold')
+plt.xlabel('Condiciones ambientales', fontsize=14, fontweight='bold')
+plt.xticks(rotation=45, fontweight = 'bold', ha = 'right')
+plt.yticks(fontweight = 'bold')
+plt.ylabel('Frecuencia', fontweight = 'bold', fontsize = 14)
+plt.show()
+
+#%%
+
+Carretera = df['Road_Type']
+plt.figure(figsize=(14, 8))
+sns.countplot(x=Carretera, color='#8B0000')
+plt.title('Accidentes respecto a los tipos de carretera', fontsize=20, fontweight='bold')
+plt.xlabel('Tipos de carretera', fontsize=14, fontweight='bold')
+plt.xticks(rotation=45, fontweight = 'bold', ha = 'right')
+plt.yticks(fontweight = 'bold')
+plt.ylabel('Frecuencia', fontweight = 'bold', fontsize = 14)
+plt.show()
