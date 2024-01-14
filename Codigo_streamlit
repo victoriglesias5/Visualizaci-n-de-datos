@@ -1,0 +1,202 @@
+import streamlit as st
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('Accidents2.csv', encoding='utf-8')
+
+st.title("Accidentes de Coche: Causa y Consecuencia")
+st.markdown('---')
+st.audio("Car_crash.mp3")
+
+
+# TALÍA
+
+st.markdown('---')
+# GRÁFICO CALOR
+pivot_table = df.pivot_table(index='Hour', columns='Day_of_Week', aggfunc='size', fill_value=0)
+
+hora_dayweek, ax = plt.subplots(figsize=(14, 8))
+sns.heatmap(pivot_table, cmap='viridis', annot=True, fmt='d', cbar_kws={'label': 'Número de accidentes'})
+ax.set_xlabel('Día de la semana', fontsize=14)
+ax.set_ylabel('Hora del día', fontsize=14)
+ax.set_title('Frecuencia de accidentes por hora y día de la semana', fontsize=16)
+
+st.pyplot(hora_dayweek)
+
+
+st.markdown('---')
+# PHYSICAL FACILITIES
+frecuencia_crossing = df['Pedestrian_Crossing-Physical_Facilities'].value_counts()
+st.title('Frecuencia de los tipos de cruces peatonales en el lugar del accidente')
+fig, ax = plt.subplots(figsize=(14, 8))
+ax.bar(range(len(frecuencia_crossing)), frecuencia_crossing.values, color='#8B0000', edgecolor='black')
+ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, loc: "{:,}".format(int(x))))
+ax.set_xticks(range(len(frecuencia_crossing)))
+ax.set_xticklabels(frecuencia_crossing.index, rotation=45, ha='right', fontweight='bold')
+ax.set_yticklabels(ax.get_yticks(), fontweight='bold', **{'horizontalalignment': 'right'})
+ax.set_xlabel('Tipo de cruce peatonal', fontsize=14, fontweight='bold')
+ax.set_ylabel('Número de accidentes', fontsize=14, fontweight='bold')
+ax.set_title('Frecuencia de los tipos de cruces peatonales en el lugar del accidente', fontsize=20, fontweight='bold')
+st.pyplot(fig)
+
+
+st.markdown('---')
+# FACILITIES - GRÁFICO CALOR
+crossing_severity_table = pd.crosstab(df['Pedestrian_Crossing-Physical_Facilities'], df['Accident_Severity'])
+
+fig, ax = plt.subplots(figsize=(14, 8))
+sns.heatmap(crossing_severity_table, cmap='viridis', annot=True, fmt='d', cbar_kws={'label': 'Frecuencia absoluta'})
+
+ax.set_xlabel('Gravedad del Accidente', fontsize=14)
+ax.set_ylabel('Tipo de cruce peatonal', fontsize=14)
+ax.set_title('Relación entre los tipos de cruces peatonales y la gravedad del accidente', fontsize=16)
+
+st.pyplot(fig)
+
+
+
+st.markdown('---')
+# CONDICIONES VÍA
+df['Road_Surface_Conditions']=df['Road_Surface_Conditions'].replace('Flood (Over 3cm of water)','Flood (Over 3cm)')
+value_counts_road = df["Road_Surface_Conditions"].value_counts()
+fig_5, ax = plt.subplots(figsize=(14, 8))
+ax.hist(df['Road_Surface_Conditions'], color='#8B0000', edgecolor='black')
+ax.set_xticklabels(value_counts_road.index,rotation = 90, fontweight = 'bold', ha='right')
+ax.set_yticklabels(ax.get_yticks(), fontweight = 'bold')
+#plt.ticklabel_format(axis='y', style='plain')
+ax.set_xlabel('Condiciones de la vía', fontsize=14, fontweight='bold')
+ax.set_ylabel('Número de accidentes', fontsize=14, fontweight='bold')
+ax.set_title('Número de accidentes según la condición de la vía', fontsize=20, fontweight='bold')
+st.pyplot(fig_5)
+
+
+
+
+
+# JESÚS
+st.markdown('---')
+# OBSTÁCULOS
+Peligros = df['Carriageway_Hazards']
+st.title('Frecuencia de Carriageway Hazards')
+fig_3, ax = plt.subplots(figsize=(14, 8))
+sns.countplot(x=Peligros, color='#8B0000')
+plt.title('Frecuencia de Carriageway Hazards', fontsize=20, fontweight='bold')
+plt.xlabel('Carriageway Hazards', fontsize=14, fontweight='bold')
+plt.xticks(rotation=45, fontweight='bold')
+plt.yticks(fontweight='bold')
+plt.ylabel('Frecuencia', fontweight='bold', fontsize=14)
+st.pyplot(fig_3)
+
+
+st.markdown('---')
+# OBSTÁCULOS - CASUALTIES
+grouped_data = df.groupby('Carriageway_Hazards')['Number_of_Casualties'].sum().reset_index()
+sorted_data = grouped_data.sort_values(by='Number_of_Casualties', ascending=False)
+st.title('Relación entre Carriageway y Number of Casualties')
+cas_peligros, ax = plt.subplots(figsize=(14, 8))
+sns.barplot(x='Carriageway_Hazards', y='Number_of_Casualties', data=sorted_data, color='#8B0000')
+plt.title('Relación entre Carriageway y Number of Casualties', fontsize=20, fontweight='bold')
+plt.xlabel('Carriageway', fontsize=14, fontweight='bold')
+plt.ylabel('Number of Casualties', fontsize=14, fontweight='bold')
+plt.xticks(rotation=45, ha='right', fontweight='bold')  
+plt.yticks(fontweight='bold')
+st.pyplot(cas_peligros)
+
+
+st.markdown('---')
+# JUNCTION CONTROL
+st.title('Distribución de Junction Control')
+junction_control_counts = df['Junction_Control'].value_counts()
+Junc_cont, ax = plt.subplots(figsize=(14, 8))
+ax.bar(junction_control_counts.index, junction_control_counts, color='#8B0000')
+plt.title('Distribución de Junction Control', fontweight='bold', fontsize=20)
+plt.xlabel('Junction Control', fontweight='bold', fontsize=14)
+plt.ylabel('Número de Accidentes', fontweight='bold', fontsize=14)
+for i, value in enumerate(junction_control_counts):
+    plt.text(i, value + 0.1, str(value), ha='center', va='bottom', fontweight='bold')
+plt.xticks(rotation=45, ha='right', fontweight='bold')  
+plt.yticks(fontweight='bold')
+st.pyplot(Junc_cont)
+
+
+
+st.markdown('---')
+# SEVERITY
+subset_df = df[df['Accident_Severity'] == 1]
+st.title('Número de víctimas graves en cada accidente')
+fig, ax = plt.subplots(figsize=(14, 8))
+casualties_counts = subset_df['Number_of_Casualties'].value_counts()
+total_grave_accidents = sum(casualties_counts)
+subset_df = df[(df['Number_of_Casualties'] <= 5) & (df['Accident_Severity'] == 1)]
+num_casualties_per_severity_counts = subset_df['Number_of_Casualties'].value_counts()
+sns.countplot(x='Number_of_Casualties', data=subset_df, color='#8B0000')
+for i, count in enumerate(num_casualties_per_severity_counts):
+    plt.text(i, count + 0.1, str(count), ha='center', va='bottom', fontweight='bold')
+plt.text(len(num_casualties_per_severity_counts) - 1, max(num_casualties_per_severity_counts) + 1,
+         f'Total: {total_grave_accidents}', ha='center', va='bottom', fontweight='bold', color='red')
+plt.xlabel('Número de víctimas', fontweight='bold', fontsize=14)
+plt.ylabel('Count', fontweight='bold', fontsize=14)
+plt.xticks(fontweight='bold')
+plt.yticks(fontweight='bold')
+plt.title('Número de víctimas graves en cada accidente', fontweight='bold', fontsize=20)
+st.pyplot(fig)
+
+
+
+
+
+
+# PEPE
+
+crossing_severity_table = pd.crosstab(df['Road_Surface_Conditions'], df['Accident_Severity'])
+ 
+crossing_severity_table_percentage = crossing_severity_table.div(crossing_severity_table.sum(axis=0), axis=1) * 100
+
+
+st.markdown('---')
+#
+fig_1, ax = plt.subplots(figsize=(14, 8))
+plot = sns.heatmap(crossing_severity_table_percentage, cmap='viridis', annot=True, fmt=".2f", cbar_kws={'label': 'Porcentaje'})
+ax.set_xlabel('Accident Severity', fontsize=14)
+ax.set_ylabel('Road_Surface_Conditions', fontsize=14)
+ax.set_title('Cross-tabulation: Junction Control vs Accident Severity', fontsize=16)
+st.pyplot(fig_1)
+
+
+st.markdown('---')
+#Special Conditions at site
+ 
+value_counts_conditions = df['Special_Conditions_at_Site'].value_counts()
+fig_2, ax = plt.subplots()
+ax.bar(value_counts_conditions.index, value_counts_conditions.values, color='#8B0000')
+ax.set_xlabel("Special Conditions", fontsize = 14, fontweight = 'bold')
+ax.set_xticklabels(value_counts_conditions.index, rotation=90, fontweight='bold')
+ax.set_yticklabels(ax.get_yticks(), fontweight='bold')
+ax.set_ylabel("Number of Accidnets", fontsize = 14, fontweight = 'bold')
+ax.set_title('Number of Accidents under Special Conditions', fontsize=16)
+st.pyplot(fig_2)
+
+
+
+#
+st.markdown('---')
+value_counts_light = df["Light_Conditions"].value_counts()
+plt.figure(figsize=(14, 8))
+fig_3, ax = plt.subplots()
+ax.bar(value_counts_light.index, value_counts_light.values, color = '#8B0000')
+ax.set_xlabel("Condiciones Luminosas", fontsize = 14, fontweight = 'bold')
+ax.set_xticklabels(value_counts_light.index,rotation = 90, fontweight = 'bold', ha='right')
+ax.set_yticklabels(ax.get_yticks(), fontweight = 'bold')
+#ax.set_ticklabel_format(axis='y', style='plain')
+ax.set_ylabel("Numero de accidentes", fontsize = 14, fontweight = 'bold')
+ax.set_title("Luminosidad en los accidentes", fontsize = 20, fontweight = 'bold')
+st.pyplot(fig_3)
+
+
+#
+st.markdown('---')
+fig_4, ax = plt.subplots(figsize=(14, 8))
+sns.violinplot(x=df['Accident_Severity'], y=df['Speed_limit'], color = '#8B0000')
+st.pyplot(fig_4)
+
