@@ -219,3 +219,80 @@ fig_4, ax = plt.subplots(figsize=(14, 8))
 sns.violinplot(x=df['Accident_Severity'], y=df['Speed_limit'], color = '#8B0000')
 st.pyplot(fig_4)
 
+
+
+
+#  VICTOR
+
+# Muertos
+subset_df = df[df['Accident_Severity'] == 1]
+st.title('Número de víctimas graves en cada accidente')
+fig, ax = plt.subplots(figsize=(14, 8))
+casualties_counts = subset_df['Number_of_Casualties'].value_counts()
+total_grave_accidents = sum(casualties_counts)
+subset_df = df[(df['Number_of_Casualties'] <= 5) & (df['Accident_Severity'] == 1)]
+num_casualties_per_severity_counts = subset_df['Number_of_Casualties'].value_counts()
+sns.countplot(x='Number_of_Casualties', data=subset_df, color='#8B0000')
+for i, count in enumerate(num_casualties_per_severity_counts):
+    plt.text(i, count + 0.1, str(count), ha='center', va='bottom', fontweight='bold')
+plt.text(len(num_casualties_per_severity_counts) - 1, max(num_casualties_per_severity_counts) + 1,
+         f'Total: {total_grave_accidents}', ha='center', va='bottom', fontweight='bold', color='red')
+plt.xlabel('Número de víctimas', fontweight='bold', fontsize=14)
+plt.ylabel('Count', fontweight='bold', fontsize=14)
+plt.xticks(fontweight='bold')
+plt.yticks(fontweight='bold')
+plt.title('Número de víctimas graves en cada accidente', fontweight='bold', fontsize=20)
+st.pyplot(fig)
+
+
+# vehículos en severidad 1
+subset_df = df[df['Accident_Severity'] == 1]
+st.title('Número de vehículos involucrados en accidentes graves')
+fig, ax = plt.subplots(figsize=(14, 8))
+sns.countplot(x='Number_of_Vehicles', data=subset_df, color='#8B0000')
+plt.title('Número de vehículos involucrados en accidentes graves', fontweight='bold', fontsize=20)
+plt.xlabel('Número de vehículos', fontweight='bold', fontsize=14)
+plt.ylabel('Número de accidentes graves', fontweight='bold', fontsize=14)
+plt.xticks(fontweight='bold')
+plt.yticks(fontweight='bold')
+st.pyplot(fig)
+
+
+# victimas x accidente
+subset_df = df[df['Number_of_Casualties'] <= 5]
+st.title('Número de víctimas por accidente')
+fig, ax = plt.subplots(figsize=(14, 8))
+sns.countplot(x='Number_of_Casualties', data=subset_df, color='#8B0000')
+plt.title('Número de víctimas por accidente', fontsize=20, fontweight='bold')
+plt.xlabel('Número de víctimas', fontsize=14, fontweight='bold')
+plt.xticks(fontweight='bold')
+plt.yticks(fontweight='bold')
+plt.ticklabel_format(axis='y', style='plain')
+plt.ylabel('Frecuencia', fontweight='bold', fontsize=14)
+st.pyplot(fig)
+
+
+
+# accidentes - condiciones climaticas
+st.title('Accidentes respecto a las condiciones ambientales')
+fig, ax = plt.subplots(figsize=(14, 8))
+sns.countplot(x='Weather_Conditions', data=df, color='#8B0000')
+plt.title('Accidentes respecto a las condiciones ambientales', fontsize=20, fontweight='bold')
+plt.xlabel('Condiciones ambientales', fontsize=14, fontweight='bold')
+plt.xticks(rotation=45, fontweight='bold', ha='right')
+plt.yticks(fontweight='bold')
+plt.ylabel('Frecuencia', fontweight='bold', fontsize=14)
+st.pyplot(fig)
+
+
+
+# accidentes - tipo carretera
+st.title('Accidentes respecto a los tipos de carretera')
+fig, ax = plt.subplots(figsize=(14, 8))
+sns.countplot(x='Road_Type', data=df, color='#8B0000')
+plt.title('Accidentes respecto a los tipos de carretera', fontsize=20, fontweight='bold')
+plt.xlabel('Tipos de carretera', fontsize=14, fontweight='bold')
+plt.xticks(rotation=45, fontweight='bold', ha='right')
+plt.yticks(fontweight='bold')
+plt.ylabel('Frecuencia', fontweight='bold', fontsize=14)
+st.pyplot(fig)
