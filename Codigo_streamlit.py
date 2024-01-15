@@ -9,7 +9,7 @@ df = pd.read_csv('Accidents_def.csv', encoding='utf-8')
 
 st.title("Accidentes de Coche: Causa y Consecuencia")
 st.markdown('---')
-st.audio("Car_crash.mp3")
+#st.audio("Car_crash.mp3")
 
 
 # TALÍA
@@ -39,7 +39,6 @@ fig.update_traces(hoverongaps=False, hovertemplate='Número de accidentes: %{z}'
 # Mostrar el gráfico con streamlit
 st.plotly_chart(fig)
 
-
 st.markdown('---')
 # PHYSICAL FACILITIES
 frecuencia_crossing = df['Facilidades_Pasos'].value_counts()
@@ -51,7 +50,8 @@ fig = px.bar(frecuencia_crossing,
              labels={'x': 'Tipo de cruce peatonal', 'y': 'Número de accidentes'},
              title='Frecuencia de los tipos de cruces peatonales en el lugar del accidente',
              width=800,
-             height=500)
+             height=500
+             )
 # Personalizar el diseño del gráfico
 fig.update_layout(
     xaxis=dict(tickmode='linear', tick0=0, dtick=1, tickangle=45, title=dict(text='Tipo de cruce peatonal')),
@@ -85,7 +85,7 @@ for i, row in enumerate(pivot_table.index):
                  showarrow=False, font=dict(color='white')))
 
 # Create layout
-layout = dict(title='Severidad del accidente vs ',
+layout = dict(title='Severidad del accidente vs Facilidad de Pasos',
               xaxis=dict(title='Severidad del Accidente', tickvals=[1,2,3], ticktext=['1', '2', '3']),
               yaxis=dict(title='Facilidad de Pasos'))
 
@@ -102,22 +102,29 @@ st.plotly_chart(fig_5)
 st.markdown('---')
 # CONDICIONES VÍA
 value_counts_road = df['Estado_via'].value_counts()
-fig_5, ax = plt.subplots(figsize=(14, 8))
-ax.hist(df['Estado_via'], color='#8B0000', edgecolor='black')
-ax.set_xticklabels(value_counts_road.index,rotation = 90, fontweight = 'bold', ha='right')
-ax.set_yticklabels(ax.get_yticks(), fontweight = 'bold')
-#plt.ticklabel_format(axis='y', style='plain')
-ax.set_xlabel('Estado de la vía', fontsize=14, fontweight='bold')
-ax.set_ylabel('Número de accidentes', fontsize=14, fontweight='bold')
-ax.set_title('Número de accidentes según el estado de la vía', fontsize=20, fontweight='bold')
-st.pyplot(fig_5)
+
+# Create a histogram with Plotly Express
+fig = px.histogram(df, x='Estado_via', color_discrete_sequence = ['#8B0000'],
+                   title='Número de accidentes según el estado de la vía',
+                   labels={'Estado_via': 'Estado de la vía', 'count': 'Número de accidentes'},
+                   height=500, width=800)
+
+# Customize the layout
+fig.update_layout(xaxis=dict(tickmode='array', tickvals=list(value_counts_road.index),
+                             ticktext=list(value_counts_road.index),
+                             tickangle=90),
+                  yaxis=dict(title='Número de accidentes'),
+                  showlegend=False)
+
+# Show the plot with Streamlit
+st.plotly_chart(fig)
 
 # JESÚS
 st.markdown('---')
 st.title('Frecuencia de obstáculos')
 Peligros = df['Obstaculos']
 # Crear un gráfico interactivo con Plotly Express
-fig_3 = px.histogram(df, x=Peligros, color=Peligros)
+fig_3 = px.histogram(df, x=Peligros, color_discrete_sequence=['#8B0000'])
 # Personalizar el diseño del gráfico
 fig_3.update_layout(
     xaxis=dict(title='Tipos de obstáculos', tickangle=45, title_font=dict(size=14, )),
@@ -136,8 +143,8 @@ sorted_data = grouped_data.sort_values(by='Numero_Afectados', ascending=False)
 fig_cas_peligros = px.bar(sorted_data, 
                           x='Obstaculos', 
                           y='Numero_Afectados',
-                          color='Numero_Afectados',
-                          labels={'Numero_Afectadoss': 'Número de Víctimas'},
+                          labels={'Numero_Afectados': 'Número de Víctimas'},
+                          color_continuous_scale='#8B0000',
                           template='plotly_dark')
 # Personalizar el diseño del gráfico
 fig_cas_peligros.update_layout(
@@ -153,7 +160,7 @@ st.title('Frecuencia de Control de Cruce')
 junction_control_counts = df['Control_Cruce'].value_counts().reset_index()
 fig_junc_cont = px.histogram(df, 
                               x='Control_Cruce', 
-                              color='Control_Cruce',
+                              color_discrete_sequence = ['#8B0000'],
                               labels={'Control_Cruce': 'Número de Accidentes'},
                               template='plotly_dark')
 # Personalizar el diseño del gráfico
@@ -173,6 +180,7 @@ fig = px.histogram(subset_df,
                    x='Numero_Afectados',
                    color='Numero_Afectados',
                    labels={'Numero de afectados': 'Número de víctimas'},
+                   color_discrete_sequence = ['#8B0000'],
                    template='plotly_dark')
 # Personalizar el diseño del gráfico
 fig.update_layout(
@@ -185,14 +193,6 @@ fig.update_layout(legend=dict(title=dict(text='Número de Afectados'),
                               tracegroupgap=0))
 # Mostrar el gráfico interactivo en Streamlit
 st.plotly_chart(fig)
-
-
-
-
-
-
-
-
 
 
 # PEPE
@@ -241,9 +241,8 @@ st.markdown('---')
 value_counts_conditions = df['Condiciones_Especiales'].value_counts()
 fig_2 = px.bar(x=value_counts_conditions.index,
              y=value_counts_conditions.values,
-             color=value_counts_conditions.index,
              labels=dict(x="Condiciones especiales", y="Número de Accidentes"),
-             color_discrete_map={'#8B0000': '#8B0000'},
+             color_continuous_scale='#8B0000',
              title='Número de Accidentes bajo condiciones especiales',
              height=500, width=800)
 
@@ -264,9 +263,8 @@ st.markdown('---')
 value_counts_light = df["Condiciones_Luminicas"].value_counts()
 fig_3 = px.bar(x=value_counts_light.index,
              y=value_counts_light.values,
-             color=value_counts_light.index,
              labels=dict(x="Condiciones lumínicas", y="Número de accidentes"),
-             color_discrete_map={'#8B0000': '#8B0000'},
+             color_continuous_scale='#8B0000',
              title='Número de accidentes bajo condiciones lumínicas',
              height=500, width=800)
 
