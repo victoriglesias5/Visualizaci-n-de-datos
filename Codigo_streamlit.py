@@ -103,7 +103,7 @@ Peligros = df['Obstaculos']
 st.title('x')
 fig_3, ax = plt.subplots(figsize=(14, 8))
 sns.countplot(x=Peligros, color='#8B0000')
-plt.title('Obstáculos en la vía'', fontsize=20, fontweight='bold')
+plt.title('Obstáculos en la vía', fontsize=20, fontweight='bold')
 plt.xlabel('Obstaculos', fontsize=14, fontweight='bold')
 plt.xticks(rotation=45, fontweight='bold')
 plt.yticks(fontweight='bold')
