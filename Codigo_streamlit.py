@@ -63,21 +63,40 @@ st.plotly_chart(fig)
 
 st.markdown('---')
 # FACILITIES - GRÁFICO CALOR
-crossing_severity_table = pd.crosstab(df['Facilidades_Pasos'], df['Gravedad_Accidente'])
+st.markdown('---')
+# GRÁFICO CALOR
+pivot_table = pd.crosstab(df['Facilidades_Pasos'], df['Gravedad_Accidente'])
+heatmap_trace = go.Heatmap(z=pivot_table.values,
+                          x=pivot_table.columns,
+                          y=pivot_table.index,
+                          colorscale='viridis',
+                          colorbar=dict(title='Porcentaje'))
 
-fig, ax = plt.subplots(figsize=(14, 8))
-sns.heatmap(crossing_severity_table, cmap='viridis', annot=True, fmt='d', cbar_kws={'label': 'Frecuencia absoluta'})
+# Extract values for annotations
+annotation_values = [list(map(str, row)) for row in pivot_table.values]
 
-ax.set_xlabel('Gravedad del Accidente', fontsize=14)
-ax.set_ylabel('Tipo de cruce peatonal', fontsize=14)
-ax.set_title('Relación entre los tipos de cruces peatonales y la gravedad del accidente', fontsize=16)
+# Create annotations
+annotations = []
+for i, row in enumerate(pivot_table.index):
+    for j, col in enumerate(pivot_table.columns):
+        annotations.append(
+            dict(x=col, y=row, text=str(annotation_values[i][j]),
+                 xref="x1", yref="y1",
+                 showarrow=False, font=dict(color='white')))
 
-st.pyplot(fig)
+# Create layout
+layout = dict(title='Severidad del accidente vs ',
+              xaxis=dict(title='Severidad del Accidente', tickvals=[1,2,3], ticktext=['1', '2', '3']),
+              yaxis=dict(title='Facilidad de Pasos'))
 
+# Create the figure
+fig_5 = go.Figure(data=[heatmap_trace], layout=layout)
 
+# Add annotations to the figure
+fig_5.update_layout(annotations=annotations)
 
-
-
+# Show the plot with Streamlit
+st.plotly_chart(fig_5)
 
 
 st.markdown('---')
