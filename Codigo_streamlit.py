@@ -3,7 +3,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-df = pd.read_csv('Accidents2.csv', encoding='utf-8')
+df = pd.read_csv('Accidents_def.csv', encoding='utf-8')
 
 st.title("Accidentes de Coche: Causa y Consecuencia")
 st.markdown('---')
@@ -13,32 +13,51 @@ st.audio("Car_crash.mp3")
 # TALÍA
 
 st.markdown('---')
+st.markdown('---')
 # GRÁFICO CALOR
-pivot_table = df.pivot_table(index='Hour', columns='Day_of_Week', aggfunc='size', fill_value=0)
-
-hora_dayweek, ax = plt.subplots(figsize=(14, 8))
-sns.heatmap(pivot_table, cmap='viridis', annot=True, fmt='d', cbar_kws={'label': 'Número de accidentes'})
-ax.set_xlabel('Día de la semana', fontsize=14)
-ax.set_ylabel('Hora del día', fontsize=14)
-ax.set_title('Frecuencia de accidentes por hora y día de la semana', fontsize=16)
-
-st.pyplot(hora_dayweek)
+pivot_table = df.pivot_table(index='Hora', columns='Día_semana', aggfunc='size', fill_value=0)
+fig = px.imshow(pivot_table, 
+                labels=dict(x="Día de la semana", y="Hora del día", color="Número de accidentes"),
+                x=pivot_table.columns,
+                y=pivot_table.index,
+                color_continuous_scale='viridis',
+                width=1000,  # Ajusta el ancho del gráfico según tus necesidades
+                height=600,  # Ajusta la altura del gráfico según tus necesidades
+                aspect="auto",  # Ajusta el aspecto del gráfico para que no se vea difuminado
+                )
+# Añadir información al gráfico
+fig.update_layout(
+    title='Frecuencia de accidentes por hora y día de la semana',
+    xaxis_title='Día de la semana',
+    yaxis_title='Hora del día',
+    xaxis=dict(tickmode='linear', tick0=0, dtick=1),  # Mostrar todos los ticks en el eje x
+    yaxis=dict(tickmode='linear', tick0=0, dtick=1),  # Mostrar todos los ticks en el eje y
+)
+# Configuración adicional para hacer el gráfico más interactivo
+fig.update_traces(hoverongaps=False, hovertemplate='Número de accidentes: %{z}')
+# Mostrar el gráfico con streamlit
+st.plotly_chart(fig)
 
 
 st.markdown('---')
 # PHYSICAL FACILITIES
-frecuencia_crossing = df['Pedestrian_Crossing-Physical_Facilities'].value_counts()
-st.title('Frecuencia de los tipos de cruces peatonales en el lugar del accidente')
-fig, ax = plt.subplots(figsize=(14, 8))
-ax.bar(range(len(frecuencia_crossing)), frecuencia_crossing.values, color='#8B0000', edgecolor='black')
-ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, loc: "{:,}".format(int(x))))
-ax.set_xticks(range(len(frecuencia_crossing)))
-ax.set_xticklabels(frecuencia_crossing.index, rotation=45, ha='right', fontweight='bold')
-ax.set_yticklabels(ax.get_yticks(), fontweight='bold', **{'horizontalalignment': 'right'})
-ax.set_xlabel('Tipo de cruce peatonal', fontsize=14, fontweight='bold')
-ax.set_ylabel('Número de accidentes', fontsize=14, fontweight='bold')
-ax.set_title('Frecuencia de los tipos de cruces peatonales en el lugar del accidente', fontsize=20, fontweight='bold')
-st.pyplot(fig)
+frecuencia_crossing = df['Facilidades_Pasos'].value_counts()
+# Crear un gráfico interactivo con Plotly Express
+fig = px.bar(frecuencia_crossing, 
+             x=frecuencia_crossing.index, 
+             y=frecuencia_crossing.values,
+             color_continuous_scale='#8B0000',
+             labels={'x': 'Tipo de cruce peatonal', 'y': 'Número de accidentes'},
+             title='Frecuencia de los tipos de cruces peatonales en el lugar del accidente',
+             width=800,
+             height=500)
+# Personalizar el diseño del gráfico
+fig.update_layout(
+    xaxis=dict(tickmode='linear', tick0=0, dtick=1, tickangle=45, title=dict(text='Tipo de cruce peatonal')),
+    yaxis=dict(title=dict(text='Número de accidentes')),
+)
+# Mostrar el gráfico con streamlit
+st.plotly_chart(fig)
 
 
 st.markdown('---')
