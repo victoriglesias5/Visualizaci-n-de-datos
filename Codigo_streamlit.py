@@ -13,7 +13,6 @@ st.audio("Car_crash.mp3")
 # TALÍA
 
 st.markdown('---')
-st.markdown('---')
 # GRÁFICO CALOR
 pivot_table = df.pivot_table(index='Hora', columns='Día_semana', aggfunc='size', fill_value=0)
 fig = px.imshow(pivot_table, 
@@ -225,6 +224,7 @@ st.pyplot(fig_4)
 #  VICTOR
 
 # Muertos
+st.markdown('---')
 subset_df = df[df['Accident_Severity'] == 1]
 st.title('Número de víctimas graves en cada accidente')
 fig, ax = plt.subplots(figsize=(14, 8))
@@ -246,6 +246,7 @@ st.pyplot(fig)
 
 
 # vehículos en severidad 1
+st.markdown('---')
 subset_df = df[df['Accident_Severity'] == 1]
 st.title('Número de vehículos involucrados en accidentes graves')
 fig, ax = plt.subplots(figsize=(14, 8))
@@ -259,6 +260,7 @@ st.pyplot(fig)
 
 
 # victimas x accidente
+st.markdown('---')
 subset_df = df[df['Number_of_Casualties'] <= 5]
 st.title('Número de víctimas por accidente')
 fig, ax = plt.subplots(figsize=(14, 8))
@@ -274,6 +276,7 @@ st.pyplot(fig)
 
 
 # accidentes - condiciones climaticas
+st.markdown('---')
 st.title('Accidentes respecto a las condiciones ambientales')
 fig, ax = plt.subplots(figsize=(14, 8))
 sns.countplot(x='Weather_Conditions', data=df, color='#8B0000')
@@ -287,6 +290,7 @@ st.pyplot(fig)
 
 
 # accidentes - tipo carretera
+st.markdown('---')
 st.title('Accidentes respecto a los tipos de carretera')
 fig, ax = plt.subplots(figsize=(14, 8))
 sns.countplot(x='Road_Type', data=df, color='#8B0000')
