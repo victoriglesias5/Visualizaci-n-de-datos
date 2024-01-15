@@ -62,7 +62,7 @@ st.plotly_chart(fig)
 
 st.markdown('---')
 # FACILITIES - GRÁFICO CALOR
-crossing_severity_table = pd.crosstab(df['Pedestrian_Crossing-Physical_Facilities'], df['Accident_Severity'])
+crossing_severity_table = pd.crosstab(df['Facilidades_Pasos'], df['Gravedad_Accidente'])
 
 fig, ax = plt.subplots(figsize=(14, 8))
 sns.heatmap(crossing_severity_table, cmap='viridis', annot=True, fmt='d', cbar_kws={'label': 'Frecuencia absoluta'})
@@ -81,16 +81,15 @@ st.pyplot(fig)
 
 st.markdown('---')
 # CONDICIONES VÍA
-df['Road_Surface_Conditions']=df['Road_Surface_Conditions'].replace('Flood (Over 3cm of water)','Flood (Over 3cm)')
-value_counts_road = df["Road_Surface_Conditions"].value_counts()
+value_counts_road = df['Estado_via'].value_counts()
 fig_5, ax = plt.subplots(figsize=(14, 8))
-ax.hist(df['Road_Surface_Conditions'], color='#8B0000', edgecolor='black')
+ax.hist(df['Estado_via'], color='#8B0000', edgecolor='black')
 ax.set_xticklabels(value_counts_road.index,rotation = 90, fontweight = 'bold', ha='right')
 ax.set_yticklabels(ax.get_yticks(), fontweight = 'bold')
 #plt.ticklabel_format(axis='y', style='plain')
-ax.set_xlabel('Condiciones de la vía', fontsize=14, fontweight='bold')
+ax.set_xlabel('Estado de la vía', fontsize=14, fontweight='bold')
 ax.set_ylabel('Número de accidentes', fontsize=14, fontweight='bold')
-ax.set_title('Número de accidentes según la condición de la vía', fontsize=20, fontweight='bold')
+ax.set_title('Número de accidentes según el estado de la vía', fontsize=20, fontweight='bold')
 st.pyplot(fig_5)
 
 
@@ -100,12 +99,12 @@ st.pyplot(fig_5)
 # JESÚS
 st.markdown('---')
 # OBSTÁCULOS
-Peligros = df['Carriageway_Hazards']
-st.title('Frecuencia de Carriageway Hazards')
+Peligros = df['Obstaculos']
+st.title('x')
 fig_3, ax = plt.subplots(figsize=(14, 8))
 sns.countplot(x=Peligros, color='#8B0000')
-plt.title('Frecuencia de Carriageway Hazards', fontsize=20, fontweight='bold')
-plt.xlabel('Carriageway Hazards', fontsize=14, fontweight='bold')
+plt.title('Obstáculos en la vía'', fontsize=20, fontweight='bold')
+plt.xlabel('Obstaculos', fontsize=14, fontweight='bold')
 plt.xticks(rotation=45, fontweight='bold')
 plt.yticks(fontweight='bold')
 plt.ylabel('Frecuencia', fontweight='bold', fontsize=14)
@@ -114,14 +113,14 @@ st.pyplot(fig_3)
 
 st.markdown('---')
 # OBSTÁCULOS - CASUALTIES
-grouped_data = df.groupby('Carriageway_Hazards')['Number_of_Casualties'].sum().reset_index()
-sorted_data = grouped_data.sort_values(by='Number_of_Casualties', ascending=False)
-st.title('Relación entre Carriageway y Number of Casualties')
+grouped_data = df.groupby('Obstaculos')['Numero_Afectados'].sum().reset_index()
+sorted_data = grouped_data.sort_values(by='Numero_Afectados', ascending=False)
+st.title('x')
 cas_peligros, ax = plt.subplots(figsize=(14, 8))
-sns.barplot(x='Carriageway_Hazards', y='Number_of_Casualties', data=sorted_data, color='#8B0000')
-plt.title('Relación entre Carriageway y Number of Casualties', fontsize=20, fontweight='bold')
-plt.xlabel('Carriageway', fontsize=14, fontweight='bold')
-plt.ylabel('Number of Casualties', fontsize=14, fontweight='bold')
+sns.barplot(x='Obstaculos', y='Numero_Afectados', data=sorted_data, color='#8B0000')
+plt.title('Relación entre los obstáculos en la vía y los afectados en el accidente', fontsize=20, fontweight='bold')
+plt.xlabel('Obstaculos', fontsize=14, fontweight='bold')
+plt.ylabel('Numero_Afectados', fontsize=14, fontweight='bold')
 plt.xticks(rotation=45, ha='right', fontweight='bold')  
 plt.yticks(fontweight='bold')
 st.pyplot(cas_peligros)
