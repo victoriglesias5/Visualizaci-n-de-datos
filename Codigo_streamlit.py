@@ -15,7 +15,7 @@ st.audio("Car_crash.mp3")
 
 st.markdown('---')
 # GRÁFICO CALOR
-pivot_table = df.pivot_table(index='Hora', columns='Día_semana', aggfunc='size', fill_value=0)
+pivot_table = df.pivot_table(index='Hora', columns='Día_Semana', aggfunc='size', fill_value=0)
 fig = px.imshow(pivot_table, 
                 labels=dict(x="Día de la semana", y="Hora del día", color="Número de accidentes"),
                 x=pivot_table.columns,
