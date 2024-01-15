@@ -150,7 +150,7 @@ st.title('Número de víctimas graves en cada accidente')
 fig, ax = plt.subplots(figsize=(14, 8))
 casualties_counts = subset_df['Numero_Afectados'].value_counts()
 total_grave_accidents = sum(casualties_counts)
-subset_df = df[(df['Numero_Afectados'] <= 5) & (df['Gravedad_Accidentes'] == 1)]
+subset_df = df[(df['Numero_Afectados'] <= 5) & (df['Gravedad_Accidente'] == 1)]
 num_casualties_per_severity_counts = subset_df['Numero_Afectados'].value_counts()
 sns.countplot(x='Numero_Afectados', data=subset_df, color='#8B0000')
 for i, count in enumerate(num_casualties_per_severity_counts):
