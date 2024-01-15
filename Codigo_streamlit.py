@@ -112,77 +112,83 @@ ax.set_ylabel('Número de accidentes', fontsize=14, fontweight='bold')
 ax.set_title('Número de accidentes según el estado de la vía', fontsize=20, fontweight='bold')
 st.pyplot(fig_5)
 
-
-
-
-
 # JESÚS
 st.markdown('---')
-# OBSTÁCULOS
+st.title('Frecuencia de obstáculos')
 Peligros = df['Obstaculos']
-st.title('x')
-fig_3, ax = plt.subplots(figsize=(14, 8))
-sns.countplot(x=Peligros, color='#8B0000')
-plt.title('Obstáculos en la vía', fontsize=20, fontweight='bold')
-plt.xlabel('Obstaculos', fontsize=14, fontweight='bold')
-plt.xticks(rotation=45, fontweight='bold')
-plt.yticks(fontweight='bold')
-plt.ylabel('Frecuencia', fontweight='bold', fontsize=14)
-st.pyplot(fig_3)
+# Crear un gráfico interactivo con Plotly Express
+fig_3 = px.histogram(df, x=Peligros, color=Peligros)
+# Personalizar el diseño del gráfico
+fig_3.update_layout(
+    xaxis=dict(title='Tipos de obstáculos', tickangle=45, title_font=dict(size=14, )),
+    yaxis=dict(title='Frecuencia', title_font=dict(size=14, ), tickfont=dict(size=14, )),
+    legend_title=dict(text='Obstáculos', font=dict(size=14, )),
+)
 
+
+# Mostrar el gráfico interactivo en Streamlit
+st.plotly_chart(fig_3)
 
 st.markdown('---')
-# OBSTÁCULOS - CASUALTIES
+st.title('Relación entre los obstáculos y afectados en el siniestro')
 grouped_data = df.groupby('Obstaculos')['Numero_Afectados'].sum().reset_index()
 sorted_data = grouped_data.sort_values(by='Numero_Afectados', ascending=False)
-st.title('x')
-cas_peligros, ax = plt.subplots(figsize=(14, 8))
-sns.barplot(x='Obstaculos', y='Numero_Afectados', data=sorted_data, color='#8B0000')
-plt.title('Relación entre los obstáculos en la vía y los afectados en el accidente', fontsize=20, fontweight='bold')
-plt.xlabel('Obstaculos', fontsize=14, fontweight='bold')
-plt.ylabel('Numero_Afectados', fontsize=14, fontweight='bold')
-plt.xticks(rotation=45, ha='right', fontweight='bold')  
-plt.yticks(fontweight='bold')
-st.pyplot(cas_peligros)
-
+fig_cas_peligros = px.bar(sorted_data, 
+                          x='Obstaculos', 
+                          y='Numero_Afectados',
+                          color='Numero_Afectados',
+                          labels={'Numero_Afectadoss': 'Número de Víctimas'},
+                          template='plotly_dark')
+# Personalizar el diseño del gráfico
+fig_cas_peligros.update_layout(
+    xaxis=dict(title='Obstáculos', tickangle=45, title_font=dict(size=14)),
+    yaxis=dict(title='Número de Afectados', title_font=dict(size=14)),
+)
+# Mostrar el gráfico interactivo en Streamlit
+st.plotly_chart(fig_cas_peligros)
 
 st.markdown('---')
 # JUNCTION CONTROL
-st.title('Distribución de los controles de cruce')
-junction_control_counts = df['Control_Cruce'].value_counts()
-Junc_cont, ax = plt.subplots(figsize=(14, 8))
-ax.bar(junction_control_counts.index, junction_control_counts, color='#8B0000')
-plt.title('Distribución de Junction Control', fontweight='bold', fontsize=20)
-plt.xlabel('Control de cruce', fontweight='bold', fontsize=14)
-plt.ylabel('Número de Accidentes', fontweight='bold', fontsize=14)
-for i, value in enumerate(junction_control_counts):
-    plt.text(i, value + 0.1, str(value), ha='center', va='bottom', fontweight='bold')
-plt.xticks(rotation=45, ha='right', fontweight='bold')  
-plt.yticks(fontweight='bold')
-st.pyplot(Junc_cont)
-
-
+st.title('Frecuencia de Control de Cruce')
+junction_control_counts = df['Control_Cruce'].value_counts().reset_index()
+fig_junc_cont = px.histogram(df, 
+                              x='Control_Cruce', 
+                              color='Control_Cruce',
+                              labels={'Control_Cruce': 'Número de Accidentes'},
+                              template='plotly_dark')
+# Personalizar el diseño del gráfico
+fig_junc_cont.update_layout(
+    xaxis=dict(title='Control de Cruce', tickangle=45, title_font=dict(size=14)),
+    yaxis=dict(title='Frecuencia', title_font=dict(size=14), tickfont=dict(size=14)),
+    legend_title=dict(text='Control de Cruce', font=dict(size=14)),
+)
+# Mostrar el gráfico interactivo en Streamlit
+st.plotly_chart(fig_junc_cont)
 
 st.markdown('---')
-# SEVERITY. victor?
+st.title('Accidentes Graves')
 subset_df = df[df['Gravedad_Accidente'] == 1]
-st.title('Número de víctimas graves en cada accidente')
-fig, ax = plt.subplots(figsize=(14, 8))
-casualties_counts = subset_df['Numero_Afectados'].value_counts()
-total_grave_accidents = sum(casualties_counts)
-subset_df = df[(df['Numero_Afectados'] <= 5) & (df['Gravedad_Accidente'] == 1)]
-num_casualties_per_severity_counts = subset_df['Numero_Afectados'].value_counts()
-sns.countplot(x='Numero_Afectados', data=subset_df, color='#8B0000')
-for i, count in enumerate(num_casualties_per_severity_counts):
-    plt.text(i, count + 0.1, str(count), ha='center', va='bottom', fontweight='bold')
-plt.text(len(num_casualties_per_severity_counts) - 1, max(num_casualties_per_severity_counts) + 1,
-         f'Total: {total_grave_accidents}', ha='center', va='bottom', fontweight='bold', color='red')
-plt.xlabel('Número de víctimas', fontweight='bold', fontsize=14)
-plt.ylabel('Count', fontweight='bold', fontsize=14)
-plt.xticks(fontweight='bold')
-plt.yticks(fontweight='bold')
-plt.title('Número de víctimas graves en cada accidente', fontweight='bold', fontsize=20)
-st.pyplot(fig)
+# Crear un gráfico interactivo con Plotly Express
+fig = px.histogram(subset_df,
+                   x='Numero_Afectados',
+                   color='Numero_Afectados',
+                   labels={'Numero de afectados': 'Número de víctimas'},
+                   template='plotly_dark')
+# Personalizar el diseño del gráfico
+fig.update_layout(
+    xaxis=dict(title='Número de víctimas', title_font=dict(size=14)),
+    yaxis=dict(title='Count', title_font=dict(size=14)),
+)
+# Ordenar la leyenda en orden ascendente
+fig.update_layout(legend=dict(title=dict(text='Número de Afectados'),
+                              traceorder='normal',
+                              tracegroupgap=0))
+# Mostrar el gráfico interactivo en Streamlit
+st.plotly_chart(fig)
+
+
+
+
 
 
 
