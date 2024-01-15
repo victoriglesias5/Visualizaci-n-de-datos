@@ -145,7 +145,7 @@ st.pyplot(Junc_cont)
 
 st.markdown('---')
 # SEVERITY. victor?
-subset_df = df[df['Gravedad_Accidentes'] == 1]
+subset_df = df[df['Gravedad_Accidente'] == 1]
 st.title('Número de víctimas graves en cada accidente')
 fig, ax = plt.subplots(figsize=(14, 8))
 casualties_counts = subset_df['Numero_Afectados'].value_counts()
