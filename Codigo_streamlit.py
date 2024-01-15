@@ -227,59 +227,101 @@ st.pyplot(fig_4)
 
 #  VICTOR
 
-
 # vehículos en severidad 1
 st.markdown('---')
+
 subset_df = df[df['Gravedad_Accidente'] == 1]
-st.title('Número de vehículos involucrados en accidentes graves')
-fig, ax = plt.subplots(figsize=(14, 8))
-sns.countplot(x='Numero_Vehiculos', data=subset_df, color='#8B0000')
-plt.title('Número de vehículos involucrados en accidentes graves', fontweight='bold', fontsize=20)
-plt.xlabel('Número de vehículos', fontweight='bold', fontsize=14)
-plt.ylabel('Número de accidentes graves', fontweight='bold', fontsize=14)
-plt.xticks(fontweight='bold')
-plt.yticks(fontweight='bold')
-st.pyplot(fig)
+# Calcula la frecuencia de los tipos de cruce peatonal
+frecuencia_vehiculos = subset_df['Numero_Vehiculos'].value_counts()
+
+# Crea un gráfico interactivo con Plotly Express
+fig = px.bar(
+    frecuencia_vehiculos,
+    x=frecuencia_vehiculos.index,
+    y=frecuencia_vehiculos.values,
+    color_continuous_scale='#8B0000',
+    labels={'x': 'Número de vehículos', 'y': 'Número de accidentes graves'},
+    title='Número de vehículos involucrados en accidentes graves',
+    width=800,
+    height=500
+)
+# Personaliza el diseño del gráfico
+fig.update_layout(
+    xaxis=dict(tickmode='linear', tick0=0, dtick=1, tickangle=45, title=dict(text='Número de vehículos')),
+    yaxis=dict(title=dict(text='Número de accidentes graves')),
+)
+# Muestra el gráfico con Streamlit
+st.plotly_chart(fig)
 
 
 # victimas x accidente
 st.markdown('---')
 subset_df = df[df['Numero_Afectados'] <= 5]
-st.title('Número de víctimas por accidente')
-fig, ax = plt.subplots(figsize=(14, 8))
-sns.countplot(x='Numbero_Afectados', data=subset_df, color='#8B0000')
-plt.title('Número de víctimas por accidente', fontsize=20, fontweight='bold')
-plt.xlabel('Número de víctimas', fontsize=14, fontweight='bold')
-plt.xticks(fontweight='bold')
-plt.yticks(fontweight='bold')
-plt.ticklabel_format(axis='y', style='plain')
-plt.ylabel('Frecuencia', fontweight='bold', fontsize=14)
-st.pyplot(fig)
+# Calcula la frecuencia de número de víctimas por accidente
+frecuencia_victimas = subset_df['Numero_Afectados'].value_counts()
 
-
+# Crea un gráfico interactivo con Plotly Express
+fig = px.bar(
+    frecuencia_victimas,
+    x=frecuencia_victimas.index,
+    y=frecuencia_victimas.values,
+    color_continuous_scale='#8B0000',
+    labels={'x': 'Número de víctimas', 'y': 'Frecuencia'},
+    title='Número de víctimas por accidente',
+    width=800,
+    height=500
+)
+# Personaliza el diseño del gráfico
+fig.update_layout(
+    xaxis=dict(tickmode='linear', tick0=0, dtick=1, tickangle=45, title=dict(text='Número de víctimas')),
+    yaxis=dict(title=dict(text='Frecuencia')),
+)
+# Muestra el gráfico con Streamlit
+st.plotly_chart(fig)
 
 # accidentes - condiciones climaticas
 st.markdown('---')
-st.title('Accidentes dadas las condiciones ambientales')
-fig, ax = plt.subplots(figsize=(14, 8))
-sns.countplot(x='Condiciones_Clima', data=df, color='#8B0000')
-plt.title('Accidentes dadas las condiciones ambientales', fontsize=20, fontweight='bold')
-plt.xlabel('Condiciones ambientales', fontsize=14, fontweight='bold')
-plt.xticks(rotation=45, fontweight='bold', ha='right')
-plt.yticks(fontweight='bold')
-plt.ylabel('Frecuencia', fontweight='bold', fontsize=14)
-st.pyplot(fig)
+frecuencia_condiciones = df['Condiciones_Clima'].value_counts()
 
+# Crea un gráfico interactivo de barras con Plotly Express
+fig = px.bar(
+    frecuencia_condiciones,
+    x=frecuencia_condiciones.index,
+    y=frecuencia_condiciones.values,
+    color_continuous_scale='#8B0000',
+    labels={'x': 'Condiciones ambientales', 'y': 'Frecuencia'},
+    title='Accidentes dadas las condiciones ambientales',
+    width=800,
+    height=500
+)
+# Personaliza el diseño del gráfico
+fig.update_layout(
+    xaxis=dict(tickmode='linear', tick0=0, dtick=1, tickangle=45, title=dict(text='Condiciones ambientales')),
+    yaxis=dict(title=dict(text='Frecuencia')),
+)
+# Muestra el gráfico con Streamlit
+st.plotly_chart(fig)
 
 
 # accidentes - tipo carretera
 st.markdown('---')
-st.title('Accidentes según el tipo de carretera')
-fig, ax = plt.subplots(figsize=(14, 8))
-sns.countplot(x='Tipo_Via', data=df, color='#8B0000')
-plt.title('Accidentes según el tipos de carretera', fontsize=20, fontweight='bold')
-plt.xlabel('Tipo de carretera', fontsize=14, fontweight='bold')
-plt.xticks(rotation=45, fontweight='bold', ha='right')
-plt.yticks(fontweight='bold')
-plt.ylabel('Frecuencia', fontweight='bold', fontsize=14)
-st.pyplot(fig)
+frecuencia_carretera = df['Tipo_Via'].value_counts()
+
+# Crea un gráfico interactivo de barras con Plotly Express
+fig = px.bar(
+    frecuencia_carretera,
+    x=frecuencia_carretera.index,
+    y=frecuencia_carretera.values,
+    color_continuous_scale='#8B0000',
+    labels={'x': 'Tipo de carretera', 'y': 'Frecuencia'},
+    title='Accidentes según el tipo de carretera',
+    width=800,
+    height=500
+)
+# Personaliza el diseño del gráfico
+fig.update_layout(
+    xaxis=dict(tickmode='linear', tick0=0, dtick=1, tickangle=45, title=dict(text='Tipo de carretera')),
+    yaxis=dict(title=dict(text='Frecuencia')),
+)
+# Muestra el gráfico con Streamlit
+st.plotly_chart(fig)
