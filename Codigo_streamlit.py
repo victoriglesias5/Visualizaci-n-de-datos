@@ -3,6 +3,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import plotly.express as px
+import plotly.graph_objects as go
 
 df = pd.read_csv('Accidents_def.csv', encoding='utf-8')
 
@@ -171,59 +172,109 @@ st.pyplot(fig)
 
 # PEPE
 
-crossing_severity_table = pd.crosstab(df['Estado_via'], df['Gravedad_Accidente'])
- 
-crossing_severity_table_percentage = crossing_severity_table.div(crossing_severity_table.sum(axis=0), axis=1) * 100
+crossing_severity_table_1 = pd.crosstab(df['Estado_via'], df['Gravedad_Accidente'])
 
+crossing_severity_table = (crossing_severity_table_1.div(crossing_severity_table_1.sum(axis=0), axis=1) * 100)
 
-st.markdown('---')
 #
-fig_1, ax = plt.subplots(figsize=(14, 8))
-plot = sns.heatmap(crossing_severity_table_percentage, cmap='viridis', annot=True, fmt=".2f", cbar_kws={'label': 'Porcentaje'})
-ax.set_xlabel('Gravedad del accidente', fontsize=14)
-ax.set_ylabel('Estado de la vía', fontsize=14)
-ax.set_title('Control de cruce vs Gravedad del accidente', fontsize=16)
-st.pyplot(fig_1)
+heatmap_trace = go.Heatmap(z=crossing_severity_table.values,
+                          x=crossing_severity_table.columns,
+                          y=crossing_severity_table.index,
+                          colorscale='viridis',
+                          colorbar=dict(title='Porcentaje'))
+
+# Extract values for annotations
+annotation_values = [list(map(lambda x: f'{x:.2f}', row)) for row in crossing_severity_table.values]
+
+# Create annotations
+annotations = []
+for i, row in enumerate(crossing_severity_table.index):
+    for j, col in enumerate(crossing_severity_table.columns):
+        annotations.append(
+            dict(x=col, y=row, text=str(annotation_values[i][j]),
+                 xref="x1", yref="y1",
+                 showarrow=False, font=dict(color='white')))
+
+# Create layout
+layout = dict(title='Relación entre Severidad del Accidente y Estado de la vía',
+              xaxis=dict(title='Severidad del Accidente', tickvals=[1, 2, 3], ticktext=['1', '2', '3']),
+              yaxis=dict(title='Estado de la Vía'))
+
+# Create the figure
+fig_5 = go.Figure(data=[heatmap_trace], layout=layout)
+
+# Add annotations to the figure
+fig_5.update_layout(annotations=annotations)
+
+# Show the plot with Streamlit
+st.plotly_chart(fig_5)
 
 
 st.markdown('---')
 #Special Conditions at site
  
 value_counts_conditions = df['Condiciones_Especiales'].value_counts()
-fig_2, ax = plt.subplots()
-ax.bar(value_counts_conditions.index, value_counts_conditions.values, color='#8B0000')
-ax.set_xlabel("Condiciones especiales", fontsize = 14, fontweight = 'bold')
-ax.set_xticklabels(value_counts_conditions.index, rotation=90, fontweight='bold')
-ax.set_yticklabels(ax.get_yticks(), fontweight='bold')
-ax.set_ylabel("Número de Accidentes", fontsize = 14, fontweight = 'bold')
-ax.set_title('Número de Accidentes bajo condiciones especiales', fontsize=16)
-st.pyplot(fig_2)
+fig_2 = px.bar(x=value_counts_conditions.index,
+             y=value_counts_conditions.values,
+             color=value_counts_conditions.index,
+             labels=dict(x="Condiciones especiales", y="Número de Accidentes"),
+             color_discrete_map={'#8B0000': '#8B0000'},
+             title='Número de Accidentes bajo condiciones especiales',
+             height=500, width=800)
+
+# Añadir información al gráfico
+fig_2.update_layout(xaxis_title='Condiciones especiales',
+                  yaxis_title='Número de Accidentes')
+
+# Configuración adicional para hacer el gráfico más interactivo
+fig_2.update_traces(hovertemplate='Número de Accidentes: %{y}')
+
+# Mostrar el gráfico con Streamlit
+st.plotly_chart(fig_2)
 
 
 
 #
 st.markdown('---')
 value_counts_light = df["Condiciones_Luminicas"].value_counts()
-plt.figure(figsize=(14, 8))
-fig_3, ax = plt.subplots()
-ax.bar(value_counts_light.index, value_counts_light.values, color = '#8B0000')
-ax.set_xlabel("Condiciones Lumínicas", fontsize = 14, fontweight = 'bold')
-ax.set_xticklabels(value_counts_light.index,rotation = 90, fontweight = 'bold', ha='right')
-ax.set_yticklabels(ax.get_yticks(), fontweight = 'bold')
-#ax.set_ticklabel_format(axis='y', style='plain')
-ax.set_ylabel("Número de accidentes", fontsize = 14, fontweight = 'bold')
-ax.set_title("Luminosidad en los accidentes", fontsize = 20, fontweight = 'bold')
-st.pyplot(fig_3)
+fig_3 = px.bar(x=value_counts_light.index,
+             y=value_counts_light.values,
+             color=value_counts_light.index,
+             labels=dict(x="Condiciones lumínicas", y="Número de accidentes"),
+             color_discrete_map={'#8B0000': '#8B0000'},
+             title='Número de accidentes bajo condiciones lumínicas',
+             height=500, width=800)
+
+# Añadir información al gráfico
+fig_3.update_layout(xaxis_title='Condiciones lumínicas',
+                  yaxis_title='Número de accidentes')
+
+# Configuración adicional para hacer el gráfico más interactivo
+fig_3.update_traces(hovertemplate='Número de accidentes: %{y}')
+
+# Mostrar el gráfico con Streamlit
+st.plotly_chart(fig_3)
 
 
 #
 st.markdown('---')
-fig_4, ax = plt.subplots(figsize=(14, 8))
-sns.violinplot(x=df['Gravedad_Accidente'], y=df['Speed_limit'], color = '#8B0000')
-st.pyplot(fig_4)
 
+fig_4 = go.Figure()
 
+for gravity, data in df.groupby('Gravedad_Accidente'):
+    fig_4.add_trace(go.Violin(x=data['Gravedad_Accidente'],
+                            y=data['Speed_limit'],
+                            name=gravity,
+                            box_visible=True,
+                            line_color='#8B0000'))
 
+# Configuración del diseño
+fig_4.update_layout(title='Relación entre la gravedad del accidente y la velocidad límite',
+                  xaxis_title='Gravedad del Accidente',
+                  yaxis_title='Límite de velocidad',
+                  height=500, width=800)
+
+st.plotly_chart(fig_4)
 
 #  VICTOR
 
