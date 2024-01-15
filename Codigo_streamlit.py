@@ -73,6 +73,35 @@ ax.set_title('Relación entre los tipos de cruces peatonales y la gravedad del a
 st.pyplot(fig)
 
 
+st.markdown('---')
+# Crear un DataFrame de ejemplo
+data = {'Pedestrian_Crossing-Physical_Facilities': ['Zebra Crossing', 'Traffic Signal', 'Zebra Crossing', 'Traffic Signal', 'No Physical Crossing', 'Zebra Crossing'],
+        'Accident_Severity': ['Fatal', 'Serious', 'Slight', 'Fatal', 'Serious', 'Slight']}
+df = pd.DataFrame(data)
+
+# Widget interactivo para elegir el método de agregación
+aggregation_method = st.selectbox('Selecciona el método de agregación:', ['count', 'sum', 'mean'])
+
+# Realizar la agregación
+crossing_severity_table = pd.crosstab(df['Pedestrian_Crossing-Physical_Facilities'], df['Accident_Severity'], margins=True, margins_name="Total")
+
+# Configurar el tamaño del gráfico
+fig, ax = plt.subplots(figsize=(14, 8))
+
+# Crear un mapa de calor interactivo
+sns.heatmap(crossing_severity_table, cmap='viridis', annot=True, fmt=f'.{0 if aggregation_method == "count" else 2}f', cbar_kws={'label': 'Frecuencia absoluta'})
+
+# Personalizar etiquetas y título
+ax.set_xlabel('Gravedad del Accidente', fontsize=14)
+ax.set_ylabel('Tipo de cruce peatonal', fontsize=14)
+ax.set_title('Relación entre los tipos de cruces peatonales y la gravedad del accidente', fontsize=16)
+
+# Mostrar el gráfico en Streamlit
+st.pyplot(fig)
+
+
+
+
 
 st.markdown('---')
 # CONDICIONES VÍA
