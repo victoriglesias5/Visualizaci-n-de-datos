@@ -36,7 +36,7 @@ if page == "Portada":
     
     # Portada con imagen
     st.image("Foto.jpg", use_column_width=True)
-    st.audio("Car_crash.mp3")
+    st.audio("Car_Crash.mp3")
     
 
 if page == "Introducción":
@@ -100,12 +100,32 @@ elif page == "Primera Parte":
 
 
     st.markdown('---')
+
+    # GRÁFICA 3. Nº de vehículos 
+    frecuencia_vehiculos = df['Numero_Vehiculos'].value_counts()
+    
+    fig = px.bar(
+        frecuencia_vehiculos,
+        x=frecuencia_vehiculos.index,
+        y=frecuencia_vehiculos.values,
+        color_discrete_sequence=['#8B0000'],
+        labels={'x': 'Número de vehículos', 'y': 'Número de accidentes'},
+        title='Número de vehículos involucrados',
+        width=800,
+        height=500
+    )
+    
+    fig.update_layout(
+        xaxis=dict(tickmode='linear', tick0=0, dtick=1, title=dict(text='Número de vehículos')),
+        yaxis=dict(title=dict(text='Número de accidentes')),
+    )
+    
+    st.plotly_chart(fig)
     
     
     # GRÁFICA 3. Nº víctimas (hasta 5), de cualquier severidad
-    subset_df = df[df['Numero_Afectados'] <= 5]
     
-    frecuencia_victimas = subset_df['Numero_Afectados'].value_counts()
+    frecuencia_victimas = df['Numero_Afectados'].value_counts()
     
     fig = px.bar(
         frecuencia_victimas,
@@ -114,7 +134,7 @@ elif page == "Primera Parte":
         color_discrete_sequence=['#8B0000'],
         labels={'x': 'Número de víctimas', 'y': 'Frecuencia'},
         title='Número de víctimas por accidente',
-        width=800,
+        width=1200,
         height=500
     )
     
@@ -124,59 +144,7 @@ elif page == "Primera Parte":
     )
     
     st.plotly_chart(fig)
-    
-    
-    
-    
-    
-    # GRÁFICA 4. Nº de víctimas en accidentes mortales (severidad 1)
-    subset_df = df[df['Gravedad_Accidente'] == 1]
-    
-    fig = px.histogram(subset_df,
-                       x='Numero_Afectados',
-                       color='Numero_Afectados',
-                       labels={'Numero de afectados': 'Número de víctimas'},
-                       color_discrete_sequence = ['#8B0000'],
-                       template='plotly_dark')
-    
-    fig.update_layout(
-        xaxis=dict(title='Número de víctimas', 
-                   title_font=dict(size=14)),
-        title = 'Nº de víctimas en accidentes graves (severidad = 1)',
-        yaxis=dict(title='Count', title_font=dict(size=14)),
-        showlegend=False
-    )
-    
-    st.plotly_chart(fig)
-    
-    
-    
-    
-    
-    # GRÁFICA 5. Nº de vehículos en accidentes de gravedad = 1
-    subset_df = df[df['Gravedad_Accidente'] == 1]
-    frecuencia_vehiculos = subset_df['Numero_Vehiculos'].value_counts()
-    
-    fig = px.bar(
-        frecuencia_vehiculos,
-        x=frecuencia_vehiculos.index,
-        y=frecuencia_vehiculos.values,
-        color_discrete_sequence=['#8B0000'],
-        labels={'x': 'Número de vehículos', 'y': 'Número de accidentes graves'},
-        title='Número de vehículos involucrados en accidentes graves',
-        width=800,
-        height=500
-    )
-    
-    fig.update_layout(
-        xaxis=dict(tickmode='linear', tick0=0, dtick=1, title=dict(text='Número de vehículos')),
-        yaxis=dict(title=dict(text='Número de accidentes graves')),
-    )
-    
-    st.plotly_chart(fig)
-    
-    
-    
+ 
     
     # GRÁFICA 6. Nº accidentes según la luz
     value_counts_light = df["Condiciones_Luminicas"].value_counts()
@@ -219,7 +187,25 @@ elif page == "Primera Parte":
     st.plotly_chart(fig)
     
     
+        # GRÁFICA 12. Histograma de la frecuencia de obstáculos
+    value_counts_obstacles = df['Obstaculos'].value_counts()
+
+    fig_3 = px.bar(
+        value_counts_obstacles,
+        x=value_counts_obstacles.index,
+        y=value_counts_obstacles.values,
+        color_discrete_sequence=['#8B0000'],
+        width=800,
+        height=500
+    )
     
+    fig_3.update_layout(title='Frecuencia de obstáculos',
+        xaxis=dict(title='Tipos de obstáculos', tickangle=45, title_font=dict(size=14, )),
+        yaxis=dict(title='Frecuencia', title_font=dict(size=14, ), tickfont=dict(size=14, )),
+        legend_title=dict(text='Obstáculos', font=dict(size=14, )),
+    )
+    
+    st.plotly_chart(fig_3)  
     
     
     # GRÁFICA 8. Nº accidentes según condiciones climáticas
@@ -230,8 +216,8 @@ elif page == "Primera Parte":
         x=frecuencia_condiciones.index,
         y=frecuencia_condiciones.values,
         color_discrete_sequence=['#8B0000'],
-        labels={'x': 'Condiciones ambientales', 'y': 'Frecuencia'},
-        title='Accidentes dadas las condiciones ambientales',
+        labels={'x': 'Condiciones climatológicas', 'y': 'Frecuencia'},
+        title='Accidentes dadas las condiciones climatológicas',
         width=800,
         height=500
     )
@@ -251,10 +237,15 @@ elif page == "Primera Parte":
     # GRÁFICA 9. Nº accidentes según condiciones de la vía
     value_counts_road = df['Estado_via'].value_counts()
     
-    fig = px.histogram(df, x='Estado_via', color_discrete_sequence = ['#8B0000'],
-                       title='Número de accidentes según el estado de la vía',
-                       labels={'Estado_via': 'Estado de la vía', 'count': 'Número de accidentes'},
-                       height=500, width=800)
+    fig = px.bar(
+        value_counts_road,
+        x=value_counts_road.index,
+        y=value_counts_road.values,
+        color_discrete_sequence=['#8B0000'],
+        title='Accidentes dadas las condiciones de la vía',
+        width=800,
+        height=500
+    )
     
     fig.update_layout(xaxis=dict(tickmode='array', tickvals=list(value_counts_road.index),
                                  ticktext=list(value_counts_road.index),
@@ -288,9 +279,9 @@ elif page == "Primera Parte":
                      xref="x1", yref="y1",
                      showarrow=False, font=dict(color='white')))
     
-    layout = dict(title='Relación entre Severidad del Accidente y Estado de la vía',
+    layout = dict(title='Relación entre Severidad del Accidente y Condiciones de la vía',
                   xaxis=dict(title='Severidad del Accidente', tickvals=[1, 2, 3], ticktext=['1', '2', '3']),
-                  yaxis=dict(title='Estado de la Vía'))
+                  yaxis=dict(title='Condiciones de la Vía'))
     
     fig_5 = go.Figure(data=[heatmap_trace], layout=layout)
     
@@ -298,46 +289,24 @@ elif page == "Primera Parte":
     
     st.plotly_chart(fig_5)
     
+    # GRÁFICA 11. Condiciones especiales
+     
+    value_counts_conditions = df['Condiciones_Especiales'].value_counts()
+    fig_2 = px.bar(x=value_counts_conditions.index,
+                 y=value_counts_conditions.values,
+                 labels=dict(x="Condiciones especiales", y="Número de Accidentes"),
+                 color_discrete_sequence=['#8B0000'],
+                 title='Número de Accidentes bajo condiciones especiales',
+                 height=500, width=800)
     
+    fig_2.update_layout(xaxis_title='Condiciones especiales',
+                      yaxis_title='Número de Accidentes')
     
+    fig_2.update_traces(hovertemplate='Número de Accidentes: %{y}')
     
-    # GRÁFICA 11. Histograma de la frecuencia de obstáculos
-    Peligros = df['Obstaculos']
+    st.plotly_chart(fig_2) 
     
-    fig_3 = px.histogram(df, x=Peligros, color_discrete_sequence=['#8B0000'])
-    
-    fig_3.update_layout(title='Frecuencia de obstáculos',
-        xaxis=dict(title='Tipos de obstáculos', tickangle=45, title_font=dict(size=14, )),
-        yaxis=dict(title='Frecuencia', title_font=dict(size=14, ), tickfont=dict(size=14, )),
-        legend_title=dict(text='Obstáculos', font=dict(size=14, )),
-    )
-    
-    st.plotly_chart(fig_3)
-    
-    
-    
-    
-    # GRÁFICA 12. Obstáculos - nº de afectados
-    grouped_data = df.groupby('Obstaculos')['Numero_Afectados'].sum().reset_index()
-    sorted_data = grouped_data.sort_values(by='Numero_Afectados', ascending=False)
-    fig_cas_peligros = px.bar(sorted_data, 
-                              x='Obstaculos', 
-                              y='Numero_Afectados',
-                              labels={'Numero_Afectados': 'Número de Víctimas'},
-                              color_discrete_sequence=['#8B0000'],
-                              template='plotly_dark')
-    
-    fig_cas_peligros.update_layout(title='Relación entre los obstáculos y afectados en el siniestro',
-        xaxis=dict(title='Obstáculos', tickangle=45, title_font=dict(size=14)),
-        yaxis=dict(title='Número de Afectados', title_font=dict(size=14)),
-    )
-    
-    st.plotly_chart(fig_cas_peligros)
-    
-    
-    
-    
-    
+
 
     # GRÁFICA 13. Violín (severidad - velocidad)
     fig_4 = go.Figure()
@@ -373,12 +342,11 @@ elif page == "Segunda Parte":
     
     
     # GRÁFICA 14. Histograma controles de cruce (NO HUMANOS!!!)
-    junction_control_counts = df['Control_Cruce'].value_counts().reset_index()
-    fig_junc_cont = px.histogram(df, 
-                                  x='Control_Cruce', 
-                                  color_discrete_sequence = ['#8B0000'],
-                                  labels={'Control_Cruce': 'Número de Accidentes'},
-                                  template='plotly_dark')
+    junction_control_counts = df['Control_Cruce'].value_counts()
+    fig_junc_cont = px.bar(x=junction_control_counts.index,
+                 y=junction_control_counts.values,
+                 color_discrete_sequence=['#8B0000'],
+                 height=500, width=800)
     
     fig_junc_cont.update_layout(title='Frecuencia de Controles de Cruce',
         xaxis=dict(title='Control de Cruce', tickangle=45, title_font=dict(size=14)),
@@ -392,28 +360,9 @@ elif page == "Segunda Parte":
     
     
     st.markdown('---')
-    # GRÁFICA 15. Condiciones especiales
-     
-    value_counts_conditions = df['Condiciones_Especiales'].value_counts()
-    fig_2 = px.bar(x=value_counts_conditions.index,
-                 y=value_counts_conditions.values,
-                 labels=dict(x="Condiciones especiales", y="Número de Accidentes"),
-                 color_discrete_sequence=['#8B0000'],
-                 title='Número de Accidentes bajo condiciones especiales',
-                 height=500, width=800)
-    
-    fig_2.update_layout(xaxis_title='Condiciones especiales',
-                      yaxis_title='Número de Accidentes')
-    
-    fig_2.update_traces(hovertemplate='Número de Accidentes: %{y}')
-    
-    st.plotly_chart(fig_2)
     
     
-    
-    
-    
-    # GRÁFICA 16. Tipos de cruces peatonales
+    # GRÁFICA 15. Tipos de cruces peatonales
     frecuencia_crossing = df['Facilidades_Pasos'].value_counts()
     
     fig = px.bar(frecuencia_crossing, 
@@ -436,7 +385,7 @@ elif page == "Segunda Parte":
     
     
     
-    # GRÁFICA 17. Relación tipos de cruces - gravedad accidente
+    # GRÁFICA 16. Relación tipos de cruces - gravedad accidente
     pivot_table = pd.crosstab(df['Facilidades_Pasos'], df['Gravedad_Accidente'])
     heatmap_trace = go.Heatmap(z=pivot_table.values,
                               x=pivot_table.columns,
