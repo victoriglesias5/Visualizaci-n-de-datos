@@ -9,7 +9,7 @@ df = pd.read_csv('Accidents_def.csv', encoding='utf-8')
 
 st.title("Accidentes de Coche: Causa y Consecuencia")
 st.markdown('---')
-#st.audio("Car_crash.mp3")
+st.audio("Car_crash.mp3")
 
 
 
@@ -18,12 +18,24 @@ st.title("INTRO")
 
 st.markdown('---')
 # GRÁFICA 1. Nº de accidentes por año
+st.title("Accidentes por año")
 
+frecuencia_por_anio = df['Año'].value_counts().reset_index()
+frecuencia_por_anio.columns = ['Año', 'Frecuencia']
 
-# x meter
+fig_frecuencia_por_anio = px.bar(frecuencia_por_anio,
+                                 x='Año',
+                                 y='Frecuencia',
+                                 labels={'Frecuencia': 'Número de Accidentes'},
+                                 title='Frecuencia de Accidentes por Año',
+                                 template='plotly_dark')
 
+fig_frecuencia_por_anio.update_layout(
+    xaxis=dict(title='Año', title_font=dict(size=14)),
+    yaxis=dict(title='Número de Accidentes', title_font=dict(size=14)),
+)
 
-
+st.plotly_chart(fig_frecuencia_por_anio)
 
 
 
