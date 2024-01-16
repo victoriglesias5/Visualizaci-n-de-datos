@@ -342,9 +342,6 @@ elif page == "Primera Parte":
     
     
     
-    st.markdown('---')
-    # PODRÍAMOS METER GRÁFICA ADICIONAL DE JESÚS AQUÍ: mapa de calor obstáculos-velocidad
-    
     
     
     st.markdown('---')
@@ -399,13 +396,6 @@ elif page == "Segunda Parte":
     )
     
     st.plotly_chart(fig_junc_cont)
-    
-    
-    
-    
-    
-    st.markdown('---')
-    # PODRÍAMOS METER GRÁFICA ADICIONAL AQUÍ: mapa de calor que relaciona junction control - severidad (está en el doc de teams)
     
     
     
