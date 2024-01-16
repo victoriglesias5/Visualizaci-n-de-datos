@@ -468,6 +468,8 @@ elif page == "Segunda Parte":
 
 
 elif page == "Conclusiones":
+    st.markdown("<h2 style='text-align: center;'>CONCLUSIONES</h2>", unsafe_allow_html=True)
+    st.markdown('---')
     
     st.image("foto_conclusion.jpg", use_column_width=True)
     
