@@ -7,19 +7,26 @@ import plotly.graph_objects as go
 
 df = pd.read_csv('Accidents_def.csv', encoding='utf-8')
 
-st.title("Accidentes de Coche: Causa y Consecuencia")
+
+st.markdown("""
+    <h1 style='text-align: center; color: #1f77b4; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 36px;'>
+        Accidentes de Coche: Causa y Consecuencia
+    </h1>
+""", unsafe_allow_html=True)
+
+
 st.markdown('---')
 st.audio("Car_crash.mp3")
-
-
-
 st.markdown('---')
-st.title("INTRO")
+
+
+
+st.markdown("<h2 style='text-align: center;'>INTRODUCCIÓN</h2>", unsafe_allow_html=True)
+st.write("Los accidentes de coche...")
+
 
 st.markdown('---')
 # GRÁFICA 1. Nº de accidentes por año
-st.title("Accidentes por año")
-
 frecuencia_por_anio = df['Año'].value_counts().reset_index()
 frecuencia_por_anio.columns = ['Año', 'Frecuencia']
 
@@ -27,7 +34,7 @@ fig_frecuencia_por_anio = px.bar(frecuencia_por_anio,
                                  x='Año',
                                  y='Frecuencia',
                                  labels={'Frecuencia': 'Número de Accidentes'},
-                                 title='Frecuencia de Accidentes por Año',
+                                 title='Accidentes por Año',
                                  template='plotly_dark')
 
 fig_frecuencia_por_anio.update_layout(
@@ -40,7 +47,6 @@ st.plotly_chart(fig_frecuencia_por_anio)
 
 
 
-st.markdown('---')
 # GRÁFICA 2. Gráfico de calor x hora y día de la semana.
 pivot_table = df.pivot_table(index='Hora', columns='Día_Semana', aggfunc='size', fill_value=0)
 fig = px.imshow(pivot_table, labels=dict(x="Día de la semana", y="Hora del día", color="Número de accidentes"),
@@ -69,16 +75,19 @@ st.plotly_chart(fig)
 
 
 st.markdown('---')
-st.title("I PARTE")
+
+st.markdown("<h2 style='text-align: center;'>PRIMERA PARTE</h2>", unsafe_allow_html=True)
+st.write("....")
 
 
 st.markdown('---')
-# GRÁFICA 3. Nº víctimas (hasta 5), de cualquer severidad
+
+
+# GRÁFICA 3. Nº víctimas (hasta 5), de cualquier severidad
 subset_df = df[df['Numero_Afectados'] <= 5]
-# Calcula la frecuencia de número de víctimas por accidente
+
 frecuencia_victimas = subset_df['Numero_Afectados'].value_counts()
 
-# Crea un gráfico interactivo con Plotly Express
 fig = px.bar(
     frecuencia_victimas,
     x=frecuencia_victimas.index,
@@ -89,21 +98,19 @@ fig = px.bar(
     width=800,
     height=500
 )
-# Personaliza el diseño del gráfico
+
 fig.update_layout(
     xaxis=dict(tickmode='linear', tick0=0, dtick=1, tickangle=45, title=dict(text='Número de víctimas')),
     yaxis=dict(title=dict(text='Frecuencia')),
 )
-# Muestra el gráfico con Streamlit
+
 st.plotly_chart(fig)
 
 
 
 
 
-st.markdown('---')
 # GRÁFICA 4. Nº de víctimas en accidentes mortales (severidad 1)
-st.title('Nº de víctimas en accidentes graves (severidad = 1)')
 subset_df = df[df['Gravedad_Accidente'] == 1]
 
 fig = px.histogram(subset_df,
@@ -114,7 +121,9 @@ fig = px.histogram(subset_df,
                    template='plotly_dark')
 
 fig.update_layout(
-    xaxis=dict(title='Número de víctimas', title_font=dict(size=14)),
+    xaxis=dict(title='Número de víctimas', 
+               title_font=dict(size=14)),
+    title = 'Nº de víctimas en accidentes graves (severidad = 1)',
     yaxis=dict(title='Count', title_font=dict(size=14)),
 )
 
@@ -127,7 +136,6 @@ st.plotly_chart(fig)
 
 
 
-st.markdown('---')
 # GRÁFICA 5. Nº de vehículos en accidentes de gravedad = 1
 subset_df = df[df['Gravedad_Accidente'] == 1]
 frecuencia_vehiculos = subset_df['Numero_Vehiculos'].value_counts()
@@ -153,7 +161,6 @@ st.plotly_chart(fig)
 
 
 
-st.markdown('---')
 # GRÁFICA 6. Nº accidentes según la luz
 value_counts_light = df["Condiciones_Luminicas"].value_counts()
 fig_3 = px.bar(x=value_counts_light.index,
@@ -173,12 +180,9 @@ st.plotly_chart(fig_3)
 
 
 
-
-st.markdown('---')
 # GRÁFICA 7. Nº accidentes según tipo de carretera
 frecuencia_carretera = df['Tipo_Via'].value_counts()
 
-# Crea un gráfico interactivo de barras con Plotly Express
 fig = px.bar(
     frecuencia_carretera,
     x=frecuencia_carretera.index,
@@ -189,24 +193,21 @@ fig = px.bar(
     width=800,
     height=500
 )
-# Personaliza el diseño del gráfico
+
 fig.update_layout(
     xaxis=dict(tickmode='linear', tick0=0, dtick=1, tickangle=45, title=dict(text='Tipo de carretera')),
     yaxis=dict(title=dict(text='Frecuencia')),
 )
-# Muestra el gráfico con Streamlit
+
 st.plotly_chart(fig)
 
 
 
 
 
-
-st.markdown('---')
 # GRÁFICA 8. Nº accidentes según condiciones climáticas
 frecuencia_condiciones = df['Condiciones_Clima'].value_counts()
 
-# Crea un gráfico interactivo de barras con Plotly Express
 fig = px.bar(
     frecuencia_condiciones,
     x=frecuencia_condiciones.index,
@@ -217,12 +218,12 @@ fig = px.bar(
     width=800,
     height=500
 )
-# Personaliza el diseño del gráfico
+
 fig.update_layout(
     xaxis=dict(tickmode='linear', tick0=0, dtick=1, tickangle=45, title=dict(text='Condiciones ambientales')),
     yaxis=dict(title=dict(text='Frecuencia')),
 )
-# Muestra el gráfico con Streamlit
+
 st.plotly_chart(fig)
 
 
@@ -230,9 +231,6 @@ st.plotly_chart(fig)
 
 
 
-
-
-st.markdown('---')
 # GRÁFICA 9. Nº accidentes según condiciones de la vía
 value_counts_road = df['Estado_via'].value_counts()
 
@@ -252,7 +250,6 @@ st.plotly_chart(fig)
 
 
 
-st.markdown('---')
 # GRÁFICA 10, relacionar con la anterior. Relación severidad - estado vía
 crossing_severity_table_1 = pd.crosstab(df['Estado_via'], df['Gravedad_Accidente'])
 
@@ -287,14 +284,12 @@ st.plotly_chart(fig_5)
 
 
 
-st.markdown('---')
 # GRÁFICA 11. Histograma de la frecuencia de obstáculos
-st.title('Frecuencia de obstáculos')
 Peligros = df['Obstaculos']
 
 fig_3 = px.histogram(df, x=Peligros, color_discrete_sequence=['#8B0000'])
 
-fig_3.update_layout(
+fig_3.update_layout(title='Frecuencia de obstáculos',
     xaxis=dict(title='Tipos de obstáculos', tickangle=45, title_font=dict(size=14, )),
     yaxis=dict(title='Frecuencia', title_font=dict(size=14, ), tickfont=dict(size=14, )),
     legend_title=dict(text='Obstáculos', font=dict(size=14, )),
@@ -305,9 +300,7 @@ st.plotly_chart(fig_3)
 
 
 
-st.markdown('---')
 # GRÁFICA 12. Obstáculos - nº de afectados
-st.title('Relación entre los obstáculos y afectados en el siniestro')
 grouped_data = df.groupby('Obstaculos')['Numero_Afectados'].sum().reset_index()
 sorted_data = grouped_data.sort_values(by='Numero_Afectados', ascending=False)
 fig_cas_peligros = px.bar(sorted_data, 
@@ -316,12 +309,12 @@ fig_cas_peligros = px.bar(sorted_data,
                           labels={'Numero_Afectados': 'Número de Víctimas'},
                           color_continuous_scale='#8B0000',
                           template='plotly_dark')
-# Personalizar el diseño del gráfico
-fig_cas_peligros.update_layout(
+
+fig_cas_peligros.update_layout(title='Relación entre los obstáculos y afectados en el siniestro',
     xaxis=dict(title='Obstáculos', tickangle=45, title_font=dict(size=14)),
     yaxis=dict(title='Número de Afectados', title_font=dict(size=14)),
 )
-# Mostrar el gráfico interactivo en Streamlit
+
 st.plotly_chart(fig_cas_peligros)
 
 
@@ -355,12 +348,15 @@ st.plotly_chart(fig_4)
 
 
 st.markdown('---')
-st.title("II PARTE")
 
+st.markdown("<h2 style='text-align: center;'>SEGUNDA PARTE</h2>", unsafe_allow_html=True)
+st.write("....")
 
 st.markdown('---')
+
+
+
 # GRÁFICA 14. Histograma controles de cruce (NO HUMANOS!!!)
-st.title('Frecuencia de Controles de Cruce')
 junction_control_counts = df['Control_Cruce'].value_counts().reset_index()
 fig_junc_cont = px.histogram(df, 
                               x='Control_Cruce', 
@@ -368,7 +364,7 @@ fig_junc_cont = px.histogram(df,
                               labels={'Control_Cruce': 'Número de Accidentes'},
                               template='plotly_dark')
 
-fig_junc_cont.update_layout(
+fig_junc_cont.update_layout(title='Frecuencia de Controles de Cruce',
     xaxis=dict(title='Control de Cruce', tickangle=45, title_font=dict(size=14)),
     yaxis=dict(title='Frecuencia', title_font=dict(size=14), tickfont=dict(size=14)),
     legend_title=dict(text='Control de Cruce', font=dict(size=14)),
@@ -382,8 +378,6 @@ st.plotly_chart(fig_junc_cont)
 
 st.markdown('---')
 # PODRÍAMOS METER GRÁFICA ADICIONAL AQUÍ: mapa de calor que relaciona junction control - severidad (está en el doc de teams)
-
-
 
 
 
@@ -410,8 +404,6 @@ st.plotly_chart(fig_2)
 
 
 
-
-st.markdown('---')
 # GRÁFICA 16. Tipos de cruces peatonales
 frecuencia_crossing = df['Facilidades_Pasos'].value_counts()
 
@@ -434,7 +426,7 @@ st.plotly_chart(fig)
 
 
 
-st.markdown('---')
+
 # GRÁFICA 17. Relación tipos de cruces - gravedad accidente
 pivot_table = pd.crosstab(df['Facilidades_Pasos'], df['Gravedad_Accidente'])
 heatmap_trace = go.Heatmap(z=pivot_table.values,
