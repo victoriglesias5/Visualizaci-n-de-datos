@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 import plotly.graph_objects as go
 
-df = pd.read_csv('Accidents_def.csv', encoding='utf-8')
+df = pd.read_csv('D:\Víctor\LOYOLA\MAI\Visualización_de_Datos/Accidents_def.csv', encoding='utf-8')
 
 # Establece el tema de Streamlit
 st.set_page_config(page_title="Accidentes de Coche", page_icon="🚗", layout="wide")
