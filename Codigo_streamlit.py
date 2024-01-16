@@ -22,19 +22,21 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.markdown("""
-    <h1 style='text-align: center; color: #8B0000; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 36px;'>
-        Accidentes de Coche: Causa y Consecuencia
-    </h1>
-""", unsafe_allow_html=True)
 
 # Navegación lateral
-page = st.sidebar.selectbox("Seleccionar Apartado", ["Introducción", "Primera Parte", "Segunda Parte"])
+page = st.sidebar.selectbox("Seleccionar Apartado", ["Portada","Introducción", "Primera Parte", "Segunda Parte"])
 
-st.markdown('---')
-audio_file = open("Car_crash.mp3", "rb").read()
-st.audio(audio_file, format="audio/mp3")
-st.markdown('---')
+
+if page == "Portada":
+    st.markdown("""
+        <h1 style='text-align: center; color: #8B0000; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 36px;'>
+            Accidentes de Coche: Causa y Consecuencia
+        </h1>
+    """, unsafe_allow_html=True)
+    # Portada con imagen
+    st.image("Foto.jpg", use_column_width=True)
+    audio_file = open("Car_crash.mp3", "rb").read()
+    st.audio(audio_file, format="audio/mp3")
 
 if page == "Introducción":
 
@@ -144,11 +146,9 @@ elif page == "Primera Parte":
                    title_font=dict(size=14)),
         title = 'Nº de víctimas en accidentes graves (severidad = 1)',
         yaxis=dict(title='Count', title_font=dict(size=14)),
+        showlegend=False
     )
     
-    fig.update_layout(legend=dict(title=dict(text='Número de Afectados'),
-                                  traceorder='normal',
-                                  tracegroupgap=0))
     st.plotly_chart(fig)
     
     
@@ -352,7 +352,8 @@ elif page == "Primera Parte":
                                 y=data['Speed_limit'],
                                 name=gravity,
                                 box_visible=True,
-                                line_color='#8B0000'))
+                                line_color='#8B0000',
+                                showlegend=False))
     
     fig_4.update_layout(title='Relación entre la gravedad del accidente y la velocidad límite',
                       xaxis_title='Gravedad del Accidente',
@@ -473,4 +474,3 @@ elif page == "Segunda Parte":
     fig_5.update_layout(annotations=annotations)
     
     st.plotly_chart(fig_5)
-
