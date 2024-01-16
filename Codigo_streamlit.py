@@ -58,7 +58,7 @@ if page == "Introducción":
     
     fig_frecuencia_por_anio.update_layout(
         xaxis=dict(title='Año', title_font=dict(size=14)),
-        yaxis=dict(title='Número de Accidentes', title_font=dict(size=14)),
+        yaxis=dict(title='Número de accidentes', title_font=dict(size=14)),
     )
     
     st.plotly_chart(fig_frecuencia_por_anio)
@@ -109,7 +109,6 @@ elif page == "Primera Parte":
         x=frecuencia_vehiculos.index,
         y=frecuencia_vehiculos.values,
         color_discrete_sequence=['#8B0000'],
-        labels={'x': 'Número de vehículos', 'y': 'Número de accidentes'},
         title='Número de vehículos por accidente',
         width=800,
         height=500
@@ -133,7 +132,6 @@ elif page == "Primera Parte":
         x=frecuencia_victimas.index,
         y=frecuencia_victimas.values,
         color_discrete_sequence=['#8B0000'],
-        labels={'x': 'Número de víctimas', 'y': 'Número de accidentes'},
         title='Número de víctimas por accidente',
         width=1200,
         height=500
@@ -141,7 +139,7 @@ elif page == "Primera Parte":
     
     fig_2.update_layout(
         xaxis=dict(tickmode='linear', tick0=0, dtick=1, title=dict(text='Número de víctimas')),
-        yaxis=dict(title=dict(text='Frecuencia')),
+        yaxis=dict(title=dict(text='Número de accidentes')),
     )
     
     st.plotly_chart(fig_2)
@@ -202,9 +200,7 @@ elif page == "Primera Parte":
     
     fig_5.update_layout(title='Número de accidentes provocados por obstáculos',
         xaxis=dict(title='Tipos de obstáculos', tickangle=45, title_font=dict(size=14, )),
-        yaxis=dict(title='Número de accidentes', title_font=dict(size=14, ), tickfont=dict(size=14, )),
-        font=dict(size=14, )),
-    )
+        yaxis=dict(title='Número de accidentes', title_font=dict(size=14, ), tickfont=dict(size=14, )))
     
     st.plotly_chart(fig_5)  
     
@@ -259,7 +255,7 @@ elif page == "Primera Parte":
     
     
     
-    # GRÁFICA 10. Relación severidad - estado vía
+    # GRÁFICA 10. Relación gravedad - estado vía
     crossing_severity_table_1 = pd.crosstab(df['Estado_via'], df['Gravedad_Accidente'])
     
     crossing_severity_table = (crossing_severity_table_1.div(crossing_severity_table_1.sum(axis=0), axis=1) * 100)
@@ -280,8 +276,8 @@ elif page == "Primera Parte":
                      xref="x1", yref="y1",
                      showarrow=False, font=dict(color='white')))
     
-    layout = dict(title='Relación entre la severidad del accidente y las condiciones de la vía',
-                  xaxis=dict(title='Severidad del Accidente', tickvals=[1, 2, 3], ticktext=['1', '2', '3']),
+    layout = dict(title='Relación entre la gravedad del accidente y las condiciones de la vía',
+                  xaxis=dict(title='Gravedad del Accidente', tickvals=[1, 2, 3], ticktext=['1', '2', '3']),
                   yaxis=dict(title='Condiciones de la Vía'))
     
     fig_8 = go.Figure(data=[heatmap_trace], layout=layout)
@@ -417,6 +413,28 @@ elif page == "Segunda Parte":
     st.plotly_chart(fig_12)
     st.markdown('---')
 
+    # GRÁFICA 16. Policía
+    atencion_policial = df['Atencion_Policial'].value_counts()
+    colors = ['#8B0000', '#00FF7F']
+    # Crear un gráfico de tarta con plotly y personalizar los colores
+    fig_13 = px.pie(
+        names=atencion_policial.index,
+        values=atencion_policial.values,
+        labels=['Si', 'No'],
+        title='Proporción de atención policial en accidentes',
+        color_discrete_sequence=colors,
+        width=700,
+        height=700
+
+    )
+
+    # Configurar el color del texto en blanco
+    fig_13.update_traces(textposition='inside', 
+                         textinfo='percent+label',
+                         textfont_size=30)
+
+    st.plotly_chart(fig_13, use_container_width=True)
+
 
 elif page == "Conclusiones":
     st.markdown("""
@@ -428,4 +446,3 @@ elif page == "Conclusiones":
     st.markdown('---')
     
     st.image("foto_conclusion.jpg", use_column_width=True)
-    
