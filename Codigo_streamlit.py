@@ -24,7 +24,7 @@ st.markdown(
 
 
 # Navegación lateral
-page = st.sidebar.selectbox("Seleccionar Apartado", ["Portada","Introducción", "Primera Parte", "Segunda Parte"])
+page = st.sidebar.selectbox("Seleccionar Apartado", ["Portada","Introducción", "Primera Parte", "Segunda Parte", "Conclusiones"])
 
 
 if page == "Portada":
@@ -33,19 +33,18 @@ if page == "Portada":
             Accidentes de Coche: Causa y Consecuencia
         </h1>
     """, unsafe_allow_html=True)
+    
     # Portada con imagen
     st.image("Foto.jpg", use_column_width=True)
     st.audio("Car_crash.mp3")
+    
 
 if page == "Introducción":
 
     st.markdown("<h2 style='text-align: center;'>INTRODUCCIÓN</h2>", unsafe_allow_html=True)
 
     st.markdown('---')
-    st.write("Los accidentes de coche...")
-    
-    
-    st.markdown('---')
+ 
     # GRÁFICA 1. Nº de accidentes por año
     frecuencia_por_anio = df['Año'].value_counts().reset_index()
     frecuencia_por_anio.columns = ['Año', 'Frecuencia']
@@ -101,10 +100,6 @@ elif page == "Primera Parte":
     st.markdown("<h2 style='text-align: center;'>PRIMERA PARTE</h2>", unsafe_allow_html=True)
 
 
-    st.markdown('---')
-    st.write("Explicar apartado")
-    
-    
     st.markdown('---')
     
     
@@ -344,7 +339,7 @@ elif page == "Primera Parte":
     
     
     
-    st.markdown('---')
+
     # GRÁFICA 13. Violín (severidad - velocidad)
     fig_4 = go.Figure()
     
@@ -376,9 +371,6 @@ elif page == "Segunda Parte":
     st.markdown("<h2 style='text-align: center;'>SEGUNDA PARTE</h2>", unsafe_allow_html=True)
     
     st.markdown('---')
-    st.write("Explicar apartado")
-    st.markdown('---')
-    
     
     
     # GRÁFICA 14. Histograma controles de cruce (NO HUMANOS!!!)
@@ -473,3 +465,9 @@ elif page == "Segunda Parte":
     
     st.plotly_chart(fig_5)
     st.markdown('---')
+
+
+elif page == "Conclusiones":
+    
+    st.image("x.jpg", use_column_width=True)
+    
