@@ -167,7 +167,7 @@ elif page == "Primera Parte":
         labels={'x': 'Número de vehículos', 'y': 'Número de accidentes graves'},
         title='Número de vehículos involucrados en accidentes graves',
         width=800,
-        height=500
+        height=500, legend_group=frecuencia_vehiculos.index
     )
     
     fig.update_layout(
@@ -358,7 +358,7 @@ elif page == "Primera Parte":
                       xaxis_title='Gravedad del Accidente',
                       yaxis_title='Límite de velocidad',
                       height=500, width=800)
-    fig.update_traces(showlegend=False)
+    fig_4.update_layout(showlegend=False)
     st.plotly_chart(fig_4)
 
 
