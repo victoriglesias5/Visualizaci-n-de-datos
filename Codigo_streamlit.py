@@ -167,14 +167,14 @@ elif page == "Primera Parte":
         labels={'x': 'Número de vehículos', 'y': 'Número de accidentes graves'},
         title='Número de vehículos involucrados en accidentes graves',
         width=800,
-        height=500, legend_group=frecuencia_vehiculos.index
+        height=500
     )
     
     fig.update_layout(
         xaxis=dict(tickmode='linear', tick0=0, dtick=1, title=dict(text='Número de vehículos')),
         yaxis=dict(title=dict(text='Número de accidentes graves')),
     )
-    fig.update_traces(showlegend=False) # para que no salga la leyenda, que no es útil
+    
     st.plotly_chart(fig)
     
     
@@ -358,7 +358,7 @@ elif page == "Primera Parte":
                       xaxis_title='Gravedad del Accidente',
                       yaxis_title='Límite de velocidad',
                       height=500, width=800)
-    fig_4.update_layout(showlegend=False)
+    
     st.plotly_chart(fig_4)
 
 
