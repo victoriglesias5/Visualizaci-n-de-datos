@@ -40,6 +40,8 @@ if page == "Portada":
 if page == "Introducción":
 
     st.markdown("<h2 style='text-align: center;'>INTRODUCCIÓN</h2>", unsafe_allow_html=True)
+
+    st.markdown('---')
     st.write("Los accidentes de coche...")
     
     
@@ -97,7 +99,10 @@ if page == "Introducción":
 elif page == "Primera Parte":
 
     st.markdown("<h2 style='text-align: center;'>PRIMERA PARTE</h2>", unsafe_allow_html=True)
-    st.write("....")
+
+
+    st.markdown('---')
+    st.write("Explicar apartado")
     
     
     st.markdown('---')
@@ -369,8 +374,9 @@ elif page == "Segunda Parte":
     st.markdown('---')
     
     st.markdown("<h2 style='text-align: center;'>SEGUNDA PARTE</h2>", unsafe_allow_html=True)
-    st.write("....")
     
+    st.markdown('---')
+    st.write("Explicar apartado")
     st.markdown('---')
     
     
