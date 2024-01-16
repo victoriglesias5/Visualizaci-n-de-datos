@@ -171,10 +171,10 @@ elif page == "Primera Parte":
     )
     
     fig.update_layout(
-        xaxis=dict(tickmode='linear', tick0=0, dtick=1, tickangle=45, title=dict(text='Número de vehículos')),
+        xaxis=dict(tickmode='linear', tick0=0, dtick=1, title=dict(text='Número de vehículos')),
         yaxis=dict(title=dict(text='Número de accidentes graves')),
     )
-    
+    fig.update_traces(showlegend=False) # para que no salga la leyenda, que no es útil
     st.plotly_chart(fig)
     
     
@@ -260,7 +260,7 @@ elif page == "Primera Parte":
     
     fig.update_layout(xaxis=dict(tickmode='array', tickvals=list(value_counts_road.index),
                                  ticktext=list(value_counts_road.index),
-                                 tickangle=90),
+                                 tickangle=45),
                       yaxis=dict(title='Número de accidentes'),
                       showlegend=False)
     
@@ -358,7 +358,7 @@ elif page == "Primera Parte":
                       xaxis_title='Gravedad del Accidente',
                       yaxis_title='Límite de velocidad',
                       height=500, width=800)
-    
+    fig.update_traces(showlegend=False)
     st.plotly_chart(fig_4)
 
 
