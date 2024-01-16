@@ -46,15 +46,15 @@ if page == "Introducción":
     st.markdown('---')
  
     # GRÁFICA 1. Nº de accidentes por año
-    frecuencia_por_anio = df['Año'].value_counts().reset_index()
+    frecuencia_por_anio = df['Año'].value_counts().reset_index().sort_values(by="Año")
     frecuencia_por_anio.columns = ['Año', 'Frecuencia']
     
-    fig_frecuencia_por_anio = px.bar(frecuencia_por_anio,
+    fig_frecuencia_por_anio = px.line(frecuencia_por_anio,
                                      x='Año',
                                      y='Frecuencia',
-                                     labels={'Frecuencia': 'Número de Accidentes'}, color_discrete_sequence=['#8B0000'],
                                      title='Accidentes por Año',
-                                     template='plotly_dark')
+                                     color_discrete_sequence = ["#8B0000"],
+                                     markers=True)
     
     fig_frecuencia_por_anio.update_layout(
         xaxis=dict(title='Año', title_font=dict(size=14)),
@@ -62,7 +62,6 @@ if page == "Introducción":
     )
     
     st.plotly_chart(fig_frecuencia_por_anio)
-    
     
     
     
