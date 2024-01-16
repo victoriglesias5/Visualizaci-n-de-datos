@@ -9,7 +9,7 @@ df = pd.read_csv('Accidents_def.csv', encoding='utf-8')
 
 
 st.markdown("""
-    <h1 style='text-align: center; color: #1f77b4; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 36px;'>
+    <h1 style='text-align: center; color: #8B0000; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 36px;'>
         Accidentes de Coche: Causa y Consecuencia
     </h1>
 """, unsafe_allow_html=True)
@@ -33,7 +33,7 @@ frecuencia_por_anio.columns = ['Año', 'Frecuencia']
 fig_frecuencia_por_anio = px.bar(frecuencia_por_anio,
                                  x='Año',
                                  y='Frecuencia',
-                                 labels={'Frecuencia': 'Número de Accidentes'},
+                                 labels={'Frecuencia': 'Número de Accidentes'}, color_discrete_sequence=['#8B0000'],
                                  title='Accidentes por Año',
                                  template='plotly_dark')
 
@@ -92,7 +92,7 @@ fig = px.bar(
     frecuencia_victimas,
     x=frecuencia_victimas.index,
     y=frecuencia_victimas.values,
-    color_continuous_scale='#8B0000',
+    color_discrete_sequence=['#8B0000'],
     labels={'x': 'Número de víctimas', 'y': 'Frecuencia'},
     title='Número de víctimas por accidente',
     width=800,
@@ -100,7 +100,7 @@ fig = px.bar(
 )
 
 fig.update_layout(
-    xaxis=dict(tickmode='linear', tick0=0, dtick=1, tickangle=45, title=dict(text='Número de víctimas')),
+    xaxis=dict(tickmode='linear', tick0=0, dtick=1, title=dict(text='Número de víctimas')),
     yaxis=dict(title=dict(text='Frecuencia')),
 )
 
@@ -144,7 +144,7 @@ fig = px.bar(
     frecuencia_vehiculos,
     x=frecuencia_vehiculos.index,
     y=frecuencia_vehiculos.values,
-    color_continuous_scale='#8B0000',
+    color_discrete_sequence=['#8B0000'],
     labels={'x': 'Número de vehículos', 'y': 'Número de accidentes graves'},
     title='Número de vehículos involucrados en accidentes graves',
     width=800,
@@ -166,7 +166,7 @@ value_counts_light = df["Condiciones_Luminicas"].value_counts()
 fig_3 = px.bar(x=value_counts_light.index,
              y=value_counts_light.values,
              labels=dict(x="Condiciones lumínicas", y="Número de accidentes"),
-             color_continuous_scale='#8B0000',
+             color_discrete_sequence=['#8B0000'],
              title='Número de accidentes según las condiciones lumínicas',
              height=500, width=800)
 
@@ -187,7 +187,7 @@ fig = px.bar(
     frecuencia_carretera,
     x=frecuencia_carretera.index,
     y=frecuencia_carretera.values,
-    color_continuous_scale='#8B0000',
+    color_discrete_sequence=['#8B0000'],
     labels={'x': 'Tipo de carretera', 'y': 'Frecuencia'},
     title='Accidentes según el tipo de carretera',
     width=800,
@@ -212,7 +212,7 @@ fig = px.bar(
     frecuencia_condiciones,
     x=frecuencia_condiciones.index,
     y=frecuencia_condiciones.values,
-    color_continuous_scale='#8B0000',
+    color_discrete_sequence=['#8B0000'],
     labels={'x': 'Condiciones ambientales', 'y': 'Frecuencia'},
     title='Accidentes dadas las condiciones ambientales',
     width=800,
@@ -307,7 +307,7 @@ fig_cas_peligros = px.bar(sorted_data,
                           x='Obstaculos', 
                           y='Numero_Afectados',
                           labels={'Numero_Afectados': 'Número de Víctimas'},
-                          color_continuous_scale='#8B0000',
+                          color_discrete_sequence=['#8B0000'],
                           template='plotly_dark')
 
 fig_cas_peligros.update_layout(title='Relación entre los obstáculos y afectados en el siniestro',
@@ -389,7 +389,7 @@ value_counts_conditions = df['Condiciones_Especiales'].value_counts()
 fig_2 = px.bar(x=value_counts_conditions.index,
              y=value_counts_conditions.values,
              labels=dict(x="Condiciones especiales", y="Número de Accidentes"),
-             color_continuous_scale='#8B0000',
+             color_discrete_sequence=['#8B0000'],
              title='Número de Accidentes bajo condiciones especiales',
              height=500, width=800)
 
@@ -410,7 +410,7 @@ frecuencia_crossing = df['Facilidades_Pasos'].value_counts()
 fig = px.bar(frecuencia_crossing, 
              x=frecuencia_crossing.index, 
              y=frecuencia_crossing.values,
-             color_continuous_scale='#8B0000',
+             color_discrete_sequence=['#8B0000'],
              labels={'x': 'Tipo de cruce peatonal', 'y': 'Número de accidentes'},
              title='Frecuencia de los tipos de cruces peatonales en el lugar del accidente',
              width=800,
@@ -454,5 +454,4 @@ fig_5 = go.Figure(data=[heatmap_trace], layout=layout)
 fig_5.update_layout(annotations=annotations)
 
 st.plotly_chart(fig_5)
-
 
