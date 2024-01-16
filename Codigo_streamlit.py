@@ -365,6 +365,9 @@ elif page == "Primera Parte":
                       height=500, width=800)
     
     st.plotly_chart(fig_4)
+    st.markdown('---')
+
+
 
 
 elif page == "Segunda Parte":
@@ -479,3 +482,4 @@ elif page == "Segunda Parte":
     fig_5.update_layout(annotations=annotations)
     
     st.plotly_chart(fig_5)
+    st.markdown('---')
