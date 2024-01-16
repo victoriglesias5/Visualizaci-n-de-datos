@@ -469,5 +469,5 @@ elif page == "Segunda Parte":
 
 elif page == "Conclusiones":
     
-    st.image("x.jpg", use_column_width=True)
+    st.image("foto_conclusion.jpg", use_column_width=True)
     
