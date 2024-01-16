@@ -468,6 +468,12 @@ elif page == "Segunda Parte":
 
 
 elif page == "Conclusiones":
+    st.markdown("""
+        <h1 style='text-align: center; color: #8B0000; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; font-size: 36px;'>
+            CONCLUSIONES
+        </h1>
+    """, unsafe_allow_html=True)
+    
     st.markdown("<h2 style='text-align: center;'>CONCLUSIONES</h2>", unsafe_allow_html=True)
     st.markdown('---')
     
