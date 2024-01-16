@@ -35,8 +35,7 @@ if page == "Portada":
     """, unsafe_allow_html=True)
     # Portada con imagen
     st.image("Foto.jpg", use_column_width=True)
-    audio_file = open("Car_crash.mp3", "rb").read()
-    st.audio(audio_file, format="audio/mp3")
+    st.audio("Car_crash.mp3")
 
 if page == "Introducción":
 
