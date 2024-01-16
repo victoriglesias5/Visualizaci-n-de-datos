@@ -29,7 +29,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Navegación lateral
-page = st.sidebar.selectbox("Seleccionar Página", ["Introducción", "Primera Parte", "Segunda Parte"])
+page = st.sidebar.selectbox("Seleccionar Apartado", ["Introducción", "Primera Parte", "Segunda Parte"])
 
 st.markdown('---')
 audio_file = open("Car_crash.mp3", "rb").read()
