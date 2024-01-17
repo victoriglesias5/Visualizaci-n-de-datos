@@ -373,7 +373,7 @@ elif page == "Segunda Parte":
                  y=frecuencia_crossing.values,
                  color_discrete_sequence=['#8B0000'],
                  labels={'x': 'Tipo de cruce peatonal', 'y': 'Número de accidentes'},
-                 title='Número de accidentes según el tipo de cruce peatonales',
+                 title='Número de accidentes según el tipo de cruce peatonal',
                  width=800,
                  height=500
                  )
