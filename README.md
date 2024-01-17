@@ -13,7 +13,6 @@ Para que la aplicación de Streamlit pueda funcionar, además de cargar el archi
 -	Foto.jpg
 -	Leyenda.md
 -	Foto_conclusion.jpg
--	Requirements.txt
 
 Una vez llegados a este punto, creamos nuestra aplicación de Streamlit la cual genera el siguiente enlace con el que podreis interactuar con la misma: [Visita nuestro Streamlit](https://visualizaci-n-de-datos-wqtxditdpzt2qqycbzh8na.streamlit.app/).
 Al abrirse tendremos una página llamada 'Portada'. En esta hay un audio que debe de ser activado pulsando el icono de play para escucharlo. Para ir pasando entre las diferentes páginas del trabajo, hemos de dirigirnos al lateral izquierdo de nuestras pantallas y clicar donde nos pone “Seleccionar Apartado”, eligiendo entre las diferentes opciones, ordenadas de forma lógica para que la experiencia goce de cohesión global.
