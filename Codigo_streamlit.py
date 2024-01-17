@@ -44,6 +44,8 @@ if page == "Introducción":
     st.markdown("<h2 style='text-align: center;'>INTRODUCCIÓN</h2>", unsafe_allow_html=True)
 
     st.markdown('---')
+    st.write('A lo largo del periodo estudiado hay una tendencia bajista de la siniestralidad. El perfil más expuesto es el conductor en horas laborales.')
+    st.markdown('---')
  
     # GRÁFICA 1. Nº de accidentes por año
     frecuencia_por_anio = df['Año'].value_counts().reset_index().sort_values(by="Año")
@@ -96,9 +98,10 @@ if page == "Introducción":
 
 elif page == "Primera Parte":
 
-    st.markdown("<h2 style='text-align: center;'>PRIMERA PARTE</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center;'>¿Qué circunstancias afectan a la siniestralidad?</h2>", unsafe_allow_html=True)
 
-
+    st.markdown('---')
+    st.write('El siniestro más común es aquel en el que el conductor se accidenta en condiciones óptimas para la conducción.')
     st.markdown('---')
 
     # GRÁFICA 3. Nº de vehículos 
@@ -336,10 +339,11 @@ elif page == "Segunda Parte":
 
     st.markdown('---')
     
-    st.markdown("<h2 style='text-align: center;'>SEGUNDA PARTE</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center;'>¿Qué políticas emplea la autoridad pertinente para luchar contra los peligros viales?</h2>", unsafe_allow_html=True)
     
     st.markdown('---')
-    
+    st.write('Todas las políticas preventivas consiguen generar un impacto positivo a la hora de evitar el siniestro.')
+    st.markdown('---')
     
     # GRÁFICA 13. Histograma controles de cruce (NO HUMANOS!!!)
     junction_control_counts = df['Control_Cruce'].value_counts()
