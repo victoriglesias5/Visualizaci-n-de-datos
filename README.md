@@ -1,12 +1,13 @@
 A lo largo del presente escrito, vamos a reflejar los requerimientos necesarios para lanzar nuestro streamlit y el contenido que podrá encontrar en el mismo.
-En primer lugar, debido al elevado peso de nuestro dataset, nos hemos encontrado con numerosos problemas a la hora de crear nuesra aplicación de Streamlit. Debido a esta dificultad, tuvimos que informarnos sobre esta situación, y llegamos a la conclusión de que era necesario usar Git LFS (Git LFS es una extensión de Git que mejora la manipulación de archivos grandes). Tuvimos que seguir los siguientes pasos:
-1. Clonar nuestro repositorio de Github en nuestro PC ("git clone https://github.com/tu_usuario/tu_repositorio.git").
+
+En primer lugar, debido al elevado peso de nuestro dataset, nos hemos encontrado con numerosos problemas a la hora de crear nuesra aplicación de Streamlit. Debido a esta dificultad, tuvimos que informarnos sobre esta situación y como solucionarlo, y tras varios intentos llegamos a la conclusión de que era necesario usar Git LFS (Git LFS es una extensión de Git que mejora la manipulación de archivos grandes). Para ello, tuvimos que seguir los siguientes pasos:
+1. Clonar nuestro repositorio de Github en nuestro PC ("git clone "https://github.com/tu_usuario/tu_repositorio.git"").
 2. Instalar LFS ("git LFS install")
 3. Especificar los tipos de archivos con los que queremos trabajar en LFS, sto generará un archivo .gitattributes que especifica qué archivos deben ser gestionados por Git LFS. ("git lfs track "*.csv"")
 4. Añadir y hacer commit de tus cambios ("git add .; git commit -m "Iniciar Git LFS y añadir configuración"")
 5. Empujar los cambios a tu repositorio de GitHub ("git push origin tu_rama")
 
-Para que la aplicación de Streamlit pueda funcionar, además de cargar el archivo .csv que se va a analizar, es necesario que en el repositorio se encuentre el siguiente paquete de archivos:
+Para que la aplicación de Streamlit pueda funcionar, además de cargar el archivo .csv (Accidentes_def.csv) que se va a analizar, es necesario que en el repositorio se encuentre el siguiente paquete de archivos:
 -	Car_Crash.mp3
 -	Codigo_streamlit.py
 -	Foto.jpg
