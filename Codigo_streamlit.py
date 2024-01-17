@@ -406,8 +406,8 @@ elif page == "Segunda Parte":
                      xref="x1", yref="y1",
                      showarrow=False, font=dict(color='white')))
     
-    layout = dict(title='Relación entre la severidad del accidente y la existencia de cruces peatonales',
-                  xaxis=dict(title='Severidad del accidente', tickvals=[1,2,3], ticktext=['1', '2', '3']),
+    layout = dict(title='Relación entre la gravedad del accidente y la existencia de cruces peatonales',
+                  xaxis=dict(title='Gravedad del accidente', tickvals=[1,2,3], ticktext=['1', '2', '3']),
                   yaxis=dict(title='Tipo de cruce peatonal'))
     
     fig_12 = go.Figure(data=[heatmap_trace], layout=layout)
